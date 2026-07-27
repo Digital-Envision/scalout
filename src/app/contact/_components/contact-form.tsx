@@ -52,6 +52,8 @@ export function ContactForm() {
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   function update<K extends keyof FormValues>(key: K, value: string) {
     setValues((prev) => ({ ...prev, [key]: value }));
@@ -74,14 +76,45 @@ export function ContactForm() {
     return next;
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setServerError(null);
     const nextErrors = validate(values);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
-    // TODO: wire to backend (send the enquiry to an email/CRM endpoint).
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        errors?: FieldErrors;
+        error?: string;
+      };
+
+      if (!res.ok || !data.ok) {
+        if (data.errors) setErrors(data.errors);
+        setServerError(
+          data.error ??
+            (data.errors
+              ? "Please correct the highlighted fields."
+              : "Something went wrong. Please try again."),
+        );
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setServerError(
+        "We couldn't reach the server. Please check your connection or email us directly at hello@scaleout.sg.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (submitted) {
@@ -248,9 +281,22 @@ export function ContactForm() {
         />
       </div>
 
-      <Button type="submit" className="mt-1 h-10 w-full rounded-md text-sm">
-        Send Enquiry
-        <ArrowRight className="size-4" />
+      {serverError ? (
+        <p
+          role="alert"
+          className="rounded-md border border-destructive/30 bg-destructive/5 px-4 py-2.5 text-sm text-destructive"
+        >
+          {serverError}
+        </p>
+      ) : null}
+
+      <Button
+        type="submit"
+        disabled={submitting}
+        className="mt-1 h-10 w-full rounded-md text-sm"
+      >
+        {submitting ? "Sending…" : "Send Enquiry"}
+        {!submitting && <ArrowRight className="size-4" />}
       </Button>
 
       <p className="text-center text-xs text-muted-foreground">

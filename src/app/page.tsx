@@ -9,9 +9,9 @@ import {
   Code2,
   Building2,
   Users,
-  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FaqAccordion } from "@/app/_components/faq-accordion";
 
 export const metadata: Metadata = {
   title: "Build Your Technology Team, Compliant from Day One",
@@ -646,35 +646,13 @@ function CtaBand() {
 
 /* ---------- FAQ ---------- */
 
-const faqs = [
-  "Do I need to set up a company in Indonesia to work with ScaleOut?",
-  "Is ScaleOut's EOR system in-house or provided by a third party?",
-  "What types of technology roles can ScaleOut support?",
-  "How is pricing structured?",
-  "Can ScaleOut work with companies not headquartered in Singapore?",
-  "Does ScaleOut support office space as part of the engagement?",
-  "What happens if an employment relationship needs to end?",
-];
-
 function Faq() {
   return (
     <section className="bg-background">
       <div className="container-page max-w-3xl py-20">
         <Eyebrow className="text-primary">FAQ</Eyebrow>
         <SectionHeading>Common questions.</SectionHeading>
-        <div className="mt-10 space-y-2.5">
-          {faqs.map((question) => (
-            <div
-              key={question}
-              className="flex items-center justify-between gap-4 rounded-lg border border-border bg-muted/60 px-6 py-4"
-            >
-              <p className="text-sm font-semibold text-foreground">
-                {question}
-              </p>
-              <ChevronDown className="size-4 shrink-0 text-muted-foreground" />
-            </div>
-          ))}
-        </div>
+        <FaqAccordion />
       </div>
     </section>
   );
