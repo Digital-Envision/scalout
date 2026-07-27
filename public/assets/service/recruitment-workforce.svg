@@ -1,0 +1,47 @@
+<svg width="280" height="180" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<g id="Company Profile Website">
+<rect width="1679" height="4458" transform="translate(-699.6 -3049.35)" fill="white"/>
+<g id="Body">
+<g id="App">
+<rect width="1679.2" height="4458.4" transform="translate(-699.6 -3049.35)" fill="white"/>
+<g id="ServicesPage">
+<g id="ServiceBlock">
+<mask id="path-1-inside-1_2_987" fill="white">
+<path d="M-699.6 -113.6H979.6V765.6H-699.6V-113.6Z"/>
+</mask>
+<path d="M-699.6 -113.6H979.6V765.6H-699.6V-113.6Z" fill="#F1F5F9" fill-opacity="0.4"/>
+<path d="M-699.6 -113.6V-112.8H979.6V-113.6V-114.4H-699.6V-113.6ZM979.6 765.6V764.8H-699.6V765.6V766.4H979.6V765.6Z" fill="black" fill-opacity="0.09" mask="url(#path-1-inside-1_2_987)"/>
+<g id="Container">
+<g id="ServiceIllustration">
+<mask id="path-3-inside-2_2_987" fill="white">
+<path d="M-372 -16.8C-372 -25.6365 -364.837 -32.8 -356 -32.8H636C644.837 -32.8 652 -25.6365 652 -16.8V196.8C652 205.637 644.837 212.8 636 212.8H-356C-364.837 212.8 -372 205.637 -372 196.8V-16.8Z"/>
+</mask>
+<path d="M-372 -16.8C-372 -25.6365 -364.837 -32.8 -356 -32.8H636C644.837 -32.8 652 -25.6365 652 -16.8V196.8C652 205.637 644.837 212.8 636 212.8H-356C-364.837 212.8 -372 205.637 -372 196.8V-16.8Z" fill="#F1F5F9" fill-opacity="0.3"/>
+<path d="M-356 -32.8V-32H636V-32.8V-33.6H-356V-32.8ZM652 -16.8H651.2V196.8H652H652.8V-16.8H652ZM636 212.8V212H-356V212.8V213.6H636V212.8ZM-372 196.8H-371.2V-16.8H-372H-372.8V196.8H-372ZM-356 212.8V212C-364.395 212 -371.2 205.195 -371.2 196.8H-372H-372.8C-372.8 206.078 -365.278 213.6 -356 213.6V212.8ZM652 196.8H651.2C651.2 205.195 644.395 212 636 212V212.8V213.6C645.278 213.6 652.8 206.078 652.8 196.8H652ZM636 -32.8V-32C644.395 -32 651.2 -25.1947 651.2 -16.8H652H652.8C652.8 -26.0784 645.278 -33.6 636 -33.6V-32.8ZM-356 -32.8V-33.6C-365.278 -33.6 -372.8 -26.0784 -372.8 -16.8H-372H-371.2C-371.2 -25.1947 -364.395 -32 -356 -32V-32.8Z" fill="black" fill-opacity="0.09" mask="url(#path-3-inside-2_2_987)"/>
+<g id="Container:margin">
+<g id="Container_2" opacity="0.8">
+<g id="Icon">
+<path id="Vector" opacity="0.18" d="M140 106C148.837 106 156 98.8366 156 90C156 81.1634 148.837 74 140 74C131.163 74 124 81.1634 124 90C124 98.8366 131.163 106 140 106Z" fill="#1A3D7C" stroke="#1A3D7C" stroke-width="1.5"/>
+<path id="Vector_2" opacity="0.1" d="M70 66C76.0751 66 81 61.0751 81 55C81 48.9249 76.0751 44 70 44C63.9249 44 59 48.9249 59 55C59 61.0751 63.9249 66 70 66Z" fill="#1A3D7C" stroke="#1A3D7C" stroke-width="1.5"/>
+<path id="Vector_3" opacity="0.1" d="M210 66C216.075 66 221 61.0751 221 55C221 48.9249 216.075 44 210 44C203.925 44 199 48.9249 199 55C199 61.0751 203.925 66 210 66Z" fill="#1A3D7C" stroke="#1A3D7C" stroke-width="1.5"/>
+<path id="Vector_4" opacity="0.1" d="M55 136C61.0751 136 66 131.075 66 125C66 118.925 61.0751 114 55 114C48.9249 114 44 118.925 44 125C44 131.075 48.9249 136 55 136Z" fill="#1A3D7C" stroke="#1A3D7C" stroke-width="1.5"/>
+<path id="Vector_5" opacity="0.1" d="M225 136C231.075 136 236 131.075 236 125C236 118.925 231.075 114 225 114C218.925 114 214 118.925 214 125C214 131.075 218.925 136 225 136Z" fill="#1A3D7C" stroke="#1A3D7C" stroke-width="1.5"/>
+<path id="Vector_6" opacity="0.1" d="M140 159C146.075 159 151 154.075 151 148C151 141.925 146.075 137 140 137C133.925 137 129 141.925 129 148C129 154.075 133.925 159 140 159Z" fill="#1A3D7C" stroke="#1A3D7C" stroke-width="1.5"/>
+<path id="Vector_7" opacity="0.25" d="M125 82L80 62" stroke="#1A3D7C" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path id="Vector_8" opacity="0.25" d="M155 82L200 62" stroke="#1A3D7C" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path id="Vector_9" opacity="0.25" d="M126 100L64 118" stroke="#1A3D7C" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path id="Vector_10" opacity="0.25" d="M154 100L216 118" stroke="#1A3D7C" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path id="Vector_11" opacity="0.25" d="M140 106V137" stroke="#1A3D7C" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path id="Vector_12" opacity="0.45" d="M140 95C142.761 95 145 92.7614 145 90C145 87.2386 142.761 85 140 85C137.239 85 135 87.2386 135 90C135 92.7614 137.239 95 140 95Z" fill="#1A3D7C"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

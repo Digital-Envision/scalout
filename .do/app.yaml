@@ -1,0 +1,29 @@
+# DigitalOcean App Platform spec for the Scalout profile site (production).
+# Deploy with: doctl apps create --spec .do/app.yaml
+# or update:   doctl apps update <APP_ID> --spec .do/app.yaml
+#
+# Replace `repo` / `branch` with your GitHub repo once it is pushed.
+name: scalout-web
+region: sgp
+services:
+  - name: web
+    environment_slug: node-js
+    github:
+      repo: your-org/scalout
+      branch: main
+      deploy_on_push: true
+    build_command: npm run build
+    run_command: node server.js
+    source_dir: /
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb
+    envs:
+      - key: HOSTNAME
+        value: "0.0.0.0"
+      - key: PORT
+        value: "8080"
+      - key: NODE_ENV
+        value: production
+    health_check:
+      http_path: /
