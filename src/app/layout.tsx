@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import { SITE_URL } from "@/lib/site";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -22,6 +20,11 @@ export const metadata: Metadata = {
     "ScaleOut helps international companies build and legally employ technology teams in Southeast Asia — fully managed employment, compliant from day one.",
 };
 
+/**
+ * Root layout — owns <html>/<body>, fonts and global metadata only.
+ * Page chrome lives in the route-group layouts: `(site)` renders the full
+ * site header/footer, `(landing)` renders its own minimal landing chrome.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,9 +36,7 @@ export default function RootLayout({
       className={cn("h-full antialiased font-sans", jakarta.variable)}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        {children}
       </body>
     </html>
   );

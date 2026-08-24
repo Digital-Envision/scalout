@@ -48,7 +48,21 @@ function RequiredMark() {
   return <span className="text-[#c8102e]"> *</span>;
 }
 
-export function ContactForm() {
+/**
+ * `default` — the standalone /contact page form.
+ * `landing`  — the in-card form on the landing page: fields paired two-up,
+ *              inline submit, and no required markers (per the Figma design).
+ */
+type ContactFormVariant = "default" | "landing";
+
+export function ContactForm({
+  variant = "default",
+  submitLabel,
+}: {
+  variant?: ContactFormVariant;
+  submitLabel?: string;
+} = {}) {
+  const isLanding = variant === "landing";
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -160,7 +174,7 @@ export function ContactForm() {
         <div className="flex flex-col gap-1.5">
           <label htmlFor="fullName" className={labelClasses}>
             Full Name
-            <RequiredMark />
+            {!isLanding && <RequiredMark />}
           </label>
           <input
             id="fullName"
@@ -184,7 +198,7 @@ export function ContactForm() {
         <div className="flex flex-col gap-1.5">
           <label htmlFor="workEmail" className={labelClasses}>
             Work Email
-            <RequiredMark />
+            {!isLanding && <RequiredMark />}
           </label>
           <input
             id="workEmail"
@@ -206,16 +220,21 @@ export function ContactForm() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="companyName" className={labelClasses}>
+      <div
+        className={cn(
+          isLanding ? "grid gap-5 sm:grid-cols-2" : "flex flex-col gap-5",
+        )}
+      >
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="companyName" className={labelClasses}>
           Company Name
-          <RequiredMark />
+          {!isLanding && <RequiredMark />}
         </label>
         <input
           id="companyName"
           name="companyName"
           type="text"
-          placeholder="Acme Pte Ltd"
+          placeholder={isLanding ? "Your company" : "Acme Pte Ltd"}
           autoComplete="organization"
           value={values.companyName}
           aria-invalid={Boolean(errors.companyName)}
@@ -233,7 +252,7 @@ export function ContactForm() {
       <div className="flex flex-col gap-1.5">
         <label htmlFor="country" className={labelClasses}>
           Country
-          <RequiredMark />
+          {!isLanding && <RequiredMark />}
         </label>
         <select
           id="country"
@@ -248,7 +267,7 @@ export function ContactForm() {
           )}
         >
           <option value="" disabled>
-            Select a country
+            {isLanding ? "Select country" : "Select a country"}
           </option>
           {COUNTRIES.map((country) => (
             <option key={country} value={country} className="text-foreground">
@@ -261,6 +280,7 @@ export function ContactForm() {
             {errors.country}
           </p>
         ) : null}
+        </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
@@ -274,7 +294,11 @@ export function ContactForm() {
           id="message"
           name="message"
           rows={4}
-          placeholder="Tell us about your team requirements, the roles you are looking to hire, and any considerations."
+          placeholder={
+            isLanding
+              ? "Tell us about your team requirements..."
+              : "Tell us about your team requirements, the roles you are looking to hire, and any considerations."
+          }
           value={values.message}
           onChange={(e) => update("message", e.target.value)}
           className={cn(fieldClasses, "min-h-[100px] resize-y")}
@@ -293,17 +317,22 @@ export function ContactForm() {
       <Button
         type="submit"
         disabled={submitting}
-        className="mt-1 h-10 w-full rounded-md text-sm"
+        className={cn(
+          "mt-1 rounded-md text-sm",
+          isLanding ? "h-11 self-start px-8" : "h-10 w-full",
+        )}
       >
-        {submitting ? "Sending…" : "Send Enquiry"}
+        {submitting ? "Sending…" : (submitLabel ?? "Send Enquiry")}
         {!submitting && <ArrowRight className="size-4" />}
       </Button>
 
-      <p className="text-center text-xs text-muted-foreground">
-        Fields marked <span className="text-[#c8102e]">*</span> are required.
-        Country is required to help us understand which market you are expanding
-        from.
-      </p>
+      {!isLanding && (
+        <p className="text-center text-xs text-muted-foreground">
+          Fields marked <span className="text-[#c8102e]">*</span> are required.
+          Country is required to help us understand which market you are
+          expanding from.
+        </p>
+      )}
     </form>
   );
 }
