@@ -108,6 +108,10 @@ export function ContactForm({
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  // /api/contact answers ok:true with delivered:false when RESEND_API_KEY is
+  // unset: the enquiry is validated and logged, but no inbox received it. The
+  // confirmation must not claim otherwise.
+  const [delivered, setDelivered] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -148,6 +152,7 @@ export function ContactForm({
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
+        delivered?: boolean;
         errors?: FieldErrors;
         error?: string;
       };
@@ -163,6 +168,7 @@ export function ContactForm({
         return;
       }
 
+      setDelivered(data.delivered !== false);
       setSubmitted(true);
     } catch {
       setServerError(
@@ -180,12 +186,23 @@ export function ContactForm({
           <CheckCircle2 className="size-6" />
         </span>
         <h2 className="text-2xl font-bold tracking-tight text-foreground">
-          Thank you. Your enquiry is on its way.
+          {delivered
+            ? "Thank you. Your enquiry is on its way."
+            : "Thank you. We have your details."}
         </h2>
         <p className="max-w-prose text-muted-foreground">
-          We have received your details and a member of the Scalout team will be
-          in touch shortly with a tailored response. In the meantime, feel free to
-          reach us directly at{" "}
+          {delivered ? (
+            <>
+              We have received your details and a member of the Scalout team
+              will be in touch shortly with a tailored response. In the meantime,
+              feel free to reach us directly at{" "}
+            </>
+          ) : (
+            <>
+              Your enquiry was recorded, but we could not confirm it reached our
+              inbox. To be sure we see it, please email us directly at{" "}
+            </>
+          )}
           <a
             href="mailto:hello@scalout.com"
             className="font-medium text-primary underline-offset-4 hover:underline"
@@ -201,6 +218,7 @@ export function ContactForm({
           onClick={() => {
             setValues(INITIAL_VALUES);
             setErrors({});
+            setDelivered(true);
             setSubmitted(false);
           }}
         >

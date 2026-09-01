@@ -74,7 +74,7 @@ export default function ContactPage() {
               <p className="text-[13px] font-bold text-foreground">
                 Custom pricing only
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-sm leading-relaxed text-on-tint">
                 We do not publish fixed rates. Pricing depends on team size, role
                 mix, and the scope of services required. Talk to us for a
                 tailored proposal.

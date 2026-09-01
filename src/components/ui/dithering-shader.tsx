@@ -154,90 +154,123 @@ export function DitheringShader({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const gl =
-      canvas.getContext("webgl", { antialias: false, alpha: false }) ??
-      (canvas.getContext(
-        "experimental-webgl",
-      ) as WebGLRenderingContext | null);
-    if (!gl) return; // CSS background-color already covers this case.
-
-    const vs = compile(gl, gl.VERTEX_SHADER, VERT);
-    const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
-    const program = gl.createProgram();
-    if (!vs || !fs || !program) return;
-    gl.attachShader(program, vs);
-    gl.attachShader(program, fs);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
-    gl.useProgram(program);
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 3, -1, -1, 3]),
-      gl.STATIC_DRAW,
-    );
-    const aPos = gl.getAttribLocation(program, "a_pos");
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-    const uRes = gl.getUniformLocation(program, "u_res");
-    const uTime = gl.getUniformLocation(program, "u_time");
-    const uScale = gl.getUniformLocation(program, "u_scale");
-    const uBack = gl.getUniformLocation(program, "u_back");
-    const uFront = gl.getUniformLocation(program, "u_front");
-    const uMatrix = gl.getUniformLocation(program, "u_matrix");
-    const uShape = gl.getUniformLocation(program, "u_shape");
-
-    gl.uniform3fv(uBack, hexToRgb(colorBack));
-    gl.uniform3fv(uFront, hexToRgb(colorFront));
-    gl.uniform1f(uScale, scale);
-    gl.uniform1i(uMatrix, MATRICES[type] ?? 1);
-    gl.uniform1i(uShape, SHAPES[shape] ?? 0);
-
     const cellSize = Math.max(1, pxSize);
-    let width = 0;
-    let height = 0;
-
-    function resize() {
-      const rect = canvas!.getBoundingClientRect();
-      const w = Math.max(1, Math.ceil(rect.width / cellSize));
-      const h = Math.max(1, Math.ceil(rect.height / cellSize));
-      if (w === width && h === height) return;
-      width = w;
-      height = h;
-      canvas!.width = w;
-      canvas!.height = h;
-      gl!.viewport(0, 0, w, h);
-      gl!.uniform2f(uRes, w, h);
-    }
-
-    function draw(time: number) {
-      resize();
-      gl!.uniform1f(uTime, time);
-      gl!.drawArrays(gl!.TRIANGLES, 0, 3);
-    }
-
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    if (reduceMotion) {
-      draw(STATIC_FRAME);
-      const observer = new ResizeObserver(() => draw(STATIC_FRAME));
-      observer.observe(canvas);
-      return () => observer.disconnect();
+    let gl: WebGLRenderingContext | null = null;
+    let program: WebGLProgram | null = null;
+    let vertexShader: WebGLShader | null = null;
+    let fragmentShader: WebGLShader | null = null;
+    let buffer: WebGLBuffer | null = null;
+    let uRes: WebGLUniformLocation | null = null;
+    let uTime: WebGLUniformLocation | null = null;
+
+    let width = 0;
+    let height = 0;
+    let frame = 0;
+    let elapsed = 0;
+    let last = 0;
+    let running = false;
+    let onScreen = false;
+
+    /** Drop the handles without touching GL — for a context that is already gone. */
+    function forget() {
+      program = null;
+      vertexShader = null;
+      fragmentShader = null;
+      buffer = null;
     }
 
-    let frame = 0;
-    let start = performance.now();
-    let elapsed = 0;
-    let running = false;
+    function release() {
+      if (gl) {
+        if (program) gl.deleteProgram(program);
+        if (vertexShader) gl.deleteShader(vertexShader);
+        if (fragmentShader) gl.deleteShader(fragmentShader);
+        if (buffer) gl.deleteBuffer(buffer);
+      }
+      forget();
+    }
+
+    /**
+     * Builds the pipeline, releasing anything it created if a step fails, so a
+     * compile or link error cannot strand GL objects. Returns false when the
+     * shader cannot run; the canvas background colour covers that case.
+     */
+    function init(): boolean {
+      gl =
+        canvas!.getContext("webgl", { antialias: false, alpha: false }) ??
+        (canvas!.getContext(
+          "experimental-webgl",
+        ) as WebGLRenderingContext | null);
+      if (!gl) return false;
+
+      vertexShader = compile(gl, gl.VERTEX_SHADER, VERT);
+      fragmentShader = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+      program = gl.createProgram();
+      if (!vertexShader || !fragmentShader || !program) {
+        release();
+        return false;
+      }
+
+      gl.attachShader(program, vertexShader);
+      gl.attachShader(program, fragmentShader);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        release();
+        return false;
+      }
+      gl.useProgram(program);
+
+      buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array([-1, -1, 3, -1, -1, 3]),
+        gl.STATIC_DRAW,
+      );
+      const aPos = gl.getAttribLocation(program, "a_pos");
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+      uRes = gl.getUniformLocation(program, "u_res");
+      uTime = gl.getUniformLocation(program, "u_time");
+      gl.uniform3fv(gl.getUniformLocation(program, "u_back"), hexToRgb(colorBack));
+      gl.uniform3fv(
+        gl.getUniformLocation(program, "u_front"),
+        hexToRgb(colorFront),
+      );
+      gl.uniform1f(gl.getUniformLocation(program, "u_scale"), scale);
+      gl.uniform1i(gl.getUniformLocation(program, "u_matrix"), MATRICES[type] ?? 1);
+      gl.uniform1i(gl.getUniformLocation(program, "u_shape"), SHAPES[shape] ?? 0);
+
+      // Force the next draw to re-measure into the fresh context.
+      width = 0;
+      height = 0;
+      return true;
+    }
+
+    function draw(time: number) {
+      if (!gl || !program) return;
+      const rect = canvas!.getBoundingClientRect();
+      const w = Math.max(1, Math.ceil(rect.width / cellSize));
+      const h = Math.max(1, Math.ceil(rect.height / cellSize));
+      if (w !== width || h !== height) {
+        width = w;
+        height = h;
+        canvas!.width = w;
+        canvas!.height = h;
+        gl.viewport(0, 0, w, h);
+        gl.uniform2f(uRes, w, h);
+      }
+      gl.uniform1f(uTime, time);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
 
     function loop(now: number) {
-      elapsed += ((now - start) / 1000) * speed;
-      start = now;
+      elapsed += ((now - last) / 1000) * speed;
+      last = now;
       draw(elapsed);
       frame = requestAnimationFrame(loop);
     }
@@ -245,7 +278,7 @@ export function DitheringShader({
     function play() {
       if (running) return;
       running = true;
-      start = performance.now();
+      last = performance.now();
       frame = requestAnimationFrame(loop);
     }
 
@@ -255,33 +288,69 @@ export function DitheringShader({
       cancelAnimationFrame(frame);
     }
 
-    // Only burn frames while the hero is actually on screen and the tab is live.
+    /**
+     * Single source of truth for whether the loop should be running: the hero
+     * has to be on screen, the tab visible, and the pipeline alive. Every input
+     * (intersection, tab visibility, context loss and restore) routes through
+     * here, so none of them can leave the shader stuck.
+     */
+    function sync() {
+      if (!program) {
+        pause();
+        return;
+      }
+      if (reduceMotion) {
+        pause();
+        draw(STATIC_FRAME);
+        return;
+      }
+      if (onScreen && !document.hidden) play();
+      else pause();
+    }
+
+    if (!init()) return; // The canvas background colour already covers this.
+
     const visibility = new IntersectionObserver(
-      ([entry]) => (entry.isIntersecting && !document.hidden ? play() : pause()),
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        sync();
+      },
       { threshold: 0 },
     );
     visibility.observe(canvas);
 
-    function onVisibilityChange() {
-      if (document.hidden) pause();
-    }
-    document.addEventListener("visibilitychange", onVisibilityChange);
+    // Only needed when nothing is animating; the loop re-measures every frame.
+    const resizeObserver = new ResizeObserver(() => {
+      if (reduceMotion || !running) sync();
+    });
+    resizeObserver.observe(canvas);
+
+    document.addEventListener("visibilitychange", sync);
 
     function onContextLost(event: Event) {
+      // preventDefault opts into restoration, which arrives as contextrestored.
       event.preventDefault();
       pause();
+      forget();
     }
+
+    function onContextRestored() {
+      if (init()) sync();
+    }
+
     canvas.addEventListener("webglcontextlost", onContextLost);
+    canvas.addEventListener("webglcontextrestored", onContextRestored);
+
+    sync();
 
     return () => {
       pause();
       visibility.disconnect();
-      document.removeEventListener("visibilitychange", onVisibilityChange);
+      resizeObserver.disconnect();
+      document.removeEventListener("visibilitychange", sync);
       canvas.removeEventListener("webglcontextlost", onContextLost);
-      gl.deleteProgram(program);
-      gl.deleteShader(vs);
-      gl.deleteShader(fs);
-      gl.deleteBuffer(buffer);
+      canvas.removeEventListener("webglcontextrestored", onContextRestored);
+      release();
     };
   }, [shape, type, colorBack, colorFront, pxSize, speed, scale]);
 

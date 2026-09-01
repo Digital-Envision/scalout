@@ -17,6 +17,7 @@
   --color-brand-on-ink: var(--brand-on-ink);
   --color-rule: var(--rule);
   --color-rule-ink: var(--rule-ink);
+  --color-on-tint: var(--on-tint);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -72,6 +73,10 @@
   --grid-line: rgba(13, 17, 23, 0.05);
   --grid-line-ink: rgba(255, 255, 255, 0.045);
   --dither-dot: rgba(26, 61, 124, 0.11);
+  /* Body copy on the tinted --accent panels. --muted-foreground lands at
+     4.24:1 there, just under AA, so those surfaces get a darker step of
+     the same blue-grey (5.5:1 on --accent, 6.2:1 on white). */
+  --on-tint: #55617a;
   --background: #ffffff;
   --foreground: #0d1117;
   --card: #ffffff;
