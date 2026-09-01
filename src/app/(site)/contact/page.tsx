@@ -4,7 +4,7 @@ import { ContactForm } from "@/components/contact-form";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Tell us about your company and what you are looking to build. Every ScaleOut engagement is scoped to your specific requirements — there is no fixed pricing, only the right solution for you.",
+    "Tell us about your company and what you are looking to build. Every Scalout engagement is scoped to your specific requirements — there is no fixed pricing, only the right solution for you.",
 };
 
 const INFO_BLOCKS = [
@@ -32,7 +32,7 @@ export default function ContactPage() {
           </h1>
           <p className="mt-5 max-w-[672px] text-lg leading-relaxed text-muted-foreground">
             Tell us about your company and what you are looking to build. Every
-            ScaleOut engagement is scoped to your specific requirements — there is
+            Scalout engagement is scoped to your specific requirements — there is
             no fixed pricing, only the right solution for you.
           </p>
         </div>

@@ -16,7 +16,7 @@ import {
 export const metadata: Metadata = {
   title: "Role Availability",
   description:
-    "ScaleOut sources, employs, and manages technology professionals across a range of disciplines. The roles below reflect the categories we recruit for — descriptions are capability-focused and do not represent real-time staffing availability.",
+    "Scalout sources, employs, and manages technology professionals across a range of disciplines. The roles below reflect the categories we recruit for — descriptions are capability-focused and do not represent real-time staffing availability.",
 };
 
 type Role = {
@@ -33,7 +33,7 @@ const roles: Role[] = [
     title: "Backend Developer",
     Icon: Server,
     description:
-      "Server-side engineers who design and build APIs, data pipelines, and application logic. ScaleOut sources across multiple backend disciplines and seniority levels.",
+      "Server-side engineers who design and build APIs, data pipelines, and application logic. Scalout sources across multiple backend disciplines and seniority levels.",
     skills: ["Node.js", "Python", "Go", "Java", "PostgreSQL", "REST", "GraphQL"],
   },
   {
@@ -140,7 +140,7 @@ export default function RolePage() {
             The roles we hire for.
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            ScaleOut sources, employs, and manages technology professionals across a range of
+            Scalout sources, employs, and manages technology professionals across a range of
             disciplines. The roles below reflect the categories we recruit for — descriptions are
             capability-focused and do not represent real-time staffing availability.
           </p>
@@ -165,7 +165,7 @@ export default function RolePage() {
                 Don&apos;t see your role?
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                The roles listed here reflect ScaleOut&apos;s primary hiring categories. If your
+                The roles listed here reflect Scalout&apos;s primary hiring categories. If your
                 requirement sits adjacent to one of these disciplines — or spans multiple roles —
                 talk to our team. Engagements are scoped to your specific requirements, not a fixed
                 catalogue.

@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ArrowRight, CircleCheck, CircleX, Minus } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Why ScaleOut",
+  title: "Why Scalout",
   description:
-    "International companies hiring technology talent in Indonesia typically face two paths: establish a local entity, or engage a staffing agency. ScaleOut is built to be neither.",
+    "International companies hiring technology talent in Indonesia typically face two paths: establish a local entity, or engage a staffing agency. Scalout is built to be neither.",
 };
 
 type Difference = {
@@ -18,12 +18,12 @@ const differences: Difference[] = [
   {
     number: "01",
     title: "In-House Employer of Record",
-    body: "ScaleOut employs your people directly through its own EOR infrastructure — no third-party employment provider, no intermediary liability. One accountable partner from contract to payroll.",
+    body: "Scalout employs your people directly through its own EOR infrastructure — no third-party employment provider, no intermediary liability. One accountable partner from contract to payroll.",
   },
   {
     number: "02",
     title: "Indonesia-Specialist Operations",
-    body: "ScaleOut was built specifically to serve international companies hiring in Indonesia. Our on-the-ground knowledge of local employment law, statutory requirements, and HR norms is integral to the service — not bolted on.",
+    body: "Scalout was built specifically to serve international companies hiring in Indonesia. Our on-the-ground knowledge of local employment law, statutory requirements, and HR norms is integral to the service — not bolted on.",
   },
   {
     number: "03",
@@ -33,12 +33,12 @@ const differences: Difference[] = [
   {
     number: "04",
     title: "Office Space Included",
-    body: "For teams that need a local presence, ScaleOut can provide access to physical workspace in Indonesia. This is part of the engagement — not a separate contract with a third party.",
+    body: "For teams that need a local presence, Scalout can provide access to physical workspace in Indonesia. This is part of the engagement — not a separate contract with a third party.",
   },
   {
     number: "05",
     title: "End-to-End Engagement",
-    body: "ScaleOut manages the full employment lifecycle — sourcing, onboarding, payroll, compliance, and ongoing HR administration. Every stage is handled under one engagement, with one point of accountability.",
+    body: "Scalout manages the full employment lifecycle — sourcing, onboarding, payroll, compliance, and ongoing HR administration. Every stage is handled under one engagement, with one point of accountability.",
   },
   {
     number: "06",
@@ -51,19 +51,19 @@ type Level = "yes" | "partial" | "no";
 
 type ComparisonRow = {
   capability: string;
-  scaleout: Level;
+  scalout: Level;
   eor: Level;
   staffing: Level;
 };
 
 const comparisonRows: ComparisonRow[] = [
-  { capability: "Developer team sourcing", scaleout: "yes", eor: "partial", staffing: "yes" },
-  { capability: "EOR and payroll management", scaleout: "yes", eor: "yes", staffing: "no" },
-  { capability: "Office space placement", scaleout: "yes", eor: "no", staffing: "no" },
-  { capability: "Recruitment support", scaleout: "yes", eor: "partial", staffing: "yes" },
-  { capability: "Own EOR infrastructure", scaleout: "yes", eor: "partial", staffing: "no" },
-  { capability: "Custom, scoped pricing", scaleout: "yes", eor: "no", staffing: "partial" },
-  { capability: "Indonesia-specific expertise", scaleout: "yes", eor: "partial", staffing: "partial" },
+  { capability: "Developer team sourcing", scalout: "yes", eor: "partial", staffing: "yes" },
+  { capability: "EOR and payroll management", scalout: "yes", eor: "yes", staffing: "no" },
+  { capability: "Office space placement", scalout: "yes", eor: "no", staffing: "no" },
+  { capability: "Recruitment support", scalout: "yes", eor: "partial", staffing: "yes" },
+  { capability: "Own EOR infrastructure", scalout: "yes", eor: "partial", staffing: "no" },
+  { capability: "Custom, scoped pricing", scalout: "yes", eor: "no", staffing: "partial" },
+  { capability: "Indonesia-specific expertise", scalout: "yes", eor: "partial", staffing: "partial" },
 ];
 
 const levelConfig: Record<
@@ -97,12 +97,12 @@ export default function WhyPage() {
             Our Difference
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
-            Why International Companies Choose ScaleOut
+            Why International Companies Choose Scalout
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             International companies hiring technology talent in Indonesia typically face two paths:
             establish a local entity — costly and time-consuming — or engage a staffing agency that
-            places people but carries no employment obligation. ScaleOut is built to be neither.
+            places people but carries no employment obligation. Scalout is built to be neither.
           </p>
         </div>
       </section>
@@ -136,7 +136,7 @@ export default function WhyPage() {
             How We Compare
           </p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground">
-            ScaleOut vs. the alternatives
+            Scalout vs. the alternatives
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             This table reflects the typical capabilities of each model. Individual providers vary —
@@ -148,7 +148,7 @@ export default function WhyPage() {
               <thead>
                 <tr className="border-b border-border bg-muted/60">
                   <th className="px-6 py-4 text-left font-semibold text-foreground">Capability</th>
-                  <th className="px-4 py-4 text-center font-bold text-primary">ScaleOut</th>
+                  <th className="px-4 py-4 text-center font-bold text-primary">Scalout</th>
                   <th className="px-4 py-4 text-center font-semibold text-muted-foreground">
                     Typical EOR Platform
                   </th>
@@ -169,7 +169,7 @@ export default function WhyPage() {
                       {row.capability}
                     </td>
                     <td className="px-4 py-3.5 text-center">
-                      <CellIndicator level={row.scaleout} />
+                      <CellIndicator level={row.scalout} />
                     </td>
                     <td className="px-4 py-3.5 text-center">
                       <CellIndicator level={row.eor} />

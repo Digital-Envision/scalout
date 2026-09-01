@@ -49,7 +49,7 @@
 }
 
 :root {
-  /* ScaleOut brand palette (from Figma; design uses raw hex, no variables) */
+  /* Scalout brand palette (from Figma; design uses raw hex, no variables) */
   --brand: #1a3d7c; /* deep blue */
   --background: #ffffff;
   --foreground: #0d1117;

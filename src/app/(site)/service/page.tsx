@@ -15,7 +15,7 @@ import { CONTACT_HREF } from "@/lib/nav";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "ScaleOut covers everything international companies need to build and legally employ technology teams — from sourcing engineers to providing workspace, with employment compliance managed throughout.",
+    "Scalout covers everything international companies need to build and legally employ technology teams — from sourcing engineers to providing workspace, with employment compliance managed throughout.",
 };
 
 type Service = {
@@ -34,14 +34,14 @@ const services: Service[] = [
     icon: Code2,
     illustration: "/assets/service/offshore-teams.svg",
     paragraphs: [
-      "ScaleOut builds and manages dedicated technology teams in Indonesia for companies headquartered in Singapore and internationally. From sourcing engineers to managing compliance, we handle the full employment cycle so your offshore team operates as a seamless extension of your business.",
+      "Scalout builds and manages dedicated technology teams in Indonesia for companies headquartered in Singapore and internationally. From sourcing engineers to managing compliance, we handle the full employment cycle so your offshore team operates as a seamless extension of your business.",
       "Each engagement is scoped to your technical requirements — stack, seniority, and team size — with no minimum headcount and no lock-in beyond what your contract specifies.",
     ],
     inclusions: [
       "Team setup and technical role scoping",
       "Technology talent sourcing across engineering disciplines",
       "Structured evaluation and candidate presentation",
-      "Onboarding into ScaleOut's legal employment structure",
+      "Onboarding into Scalout's legal employment structure",
       "Ongoing team management and HR support",
       "Payroll, statutory contributions, and compliance managed end to end",
     ],
@@ -52,11 +52,11 @@ const services: Service[] = [
     icon: ShieldCheck,
     illustration: "/assets/service/employer-of-record.svg",
     paragraphs: [
-      "ScaleOut's Employer of Record service runs on its own in-house infrastructure — not through a third-party platform or partner network. ScaleOut is the legal employer of record for your team members, carrying all employer obligations under applicable local law.",
-      "This structure means your company has no direct employment exposure in Indonesia. ScaleOut handles contracts, statutory compliance, payroll, and ongoing HR administration, all under a single commercial agreement with you.",
+      "Scalout's Employer of Record service runs on its own in-house infrastructure — not through a third-party platform or partner network. Scalout is the legal employer of record for your team members, carrying all employer obligations under applicable local law.",
+      "This structure means your company has no direct employment exposure in Indonesia. Scalout handles contracts, statutory compliance, payroll, and ongoing HR administration, all under a single commercial agreement with you.",
     ],
     inclusions: [
-      "ScaleOut as the legal employer — no third-party intermediary",
+      "Scalout as the legal employer — no third-party intermediary",
       "Compliant employment contracts under applicable local law",
       "Statutory registration and all employer obligations managed",
       "Monthly payroll processing with deductions and contributions handled",
@@ -70,8 +70,8 @@ const services: Service[] = [
     icon: Building2,
     illustration: "/assets/service/office-placement.svg",
     paragraphs: [
-      "For teams that require a physical presence in Indonesia, ScaleOut provides access to ready-to-use workspace as part of the engagement. Office placement is coordinated alongside EOR and payroll — your team has somewhere to work from the start, without you negotiating a separate lease or facilities contract.",
-      "This service is available as a standalone arrangement or bundled with ScaleOut's development team and EOR services, depending on your team's requirements.",
+      "For teams that require a physical presence in Indonesia, Scalout provides access to ready-to-use workspace as part of the engagement. Office placement is coordinated alongside EOR and payroll — your team has somewhere to work from the start, without you negotiating a separate lease or facilities contract.",
+      "This service is available as a standalone arrangement or bundled with Scalout's development team and EOR services, depending on your team's requirements.",
     ],
     inclusions: [
       "Access to physical workspace in Indonesia",
@@ -88,8 +88,8 @@ const services: Service[] = [
     icon: Users,
     illustration: "/assets/service/recruitment-workforce.svg",
     paragraphs: [
-      "ScaleOut runs a structured recruitment process focused exclusively on technology roles — software engineers, product managers, QA specialists, data practitioners, and related positions. We manage the process from brief through offer, then stay involved as the employment relationship continues.",
-      "Workforce management covers the ongoing HR and operational layer: headcount planning, probation oversight, performance process support, and workforce changes — all within the ScaleOut employment structure.",
+      "Scalout runs a structured recruitment process focused exclusively on technology roles — software engineers, product managers, QA specialists, data practitioners, and related positions. We manage the process from brief through offer, then stay involved as the employment relationship continues.",
+      "Workforce management covers the ongoing HR and operational layer: headcount planning, probation oversight, performance process support, and workforce changes — all within the Scalout employment structure.",
     ],
     inclusions: [
       "Role scoping and technical brief development",
@@ -166,7 +166,7 @@ export default function ServicePage() {
             Four services, one partner.
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            ScaleOut covers everything international companies need to build and
+            Scalout covers everything international companies need to build and
             legally employ technology teams — from sourcing engineers to
             providing workspace, with employment compliance managed throughout.
           </p>
