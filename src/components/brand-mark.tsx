@@ -25,7 +25,7 @@ export function BrandMark({
     <Link
       href="/"
       className={cn("inline-flex items-center", className)}
-      aria-label="Scalout — go to home"
+      aria-label="Scalout, go to home"
     >
       <Image
         src={invert ? "/assets/brand/logo-invert.png" : "/assets/brand/logo.png"}

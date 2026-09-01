@@ -16,21 +16,22 @@ export function SiteHeader() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-rule bg-white/92 backdrop-blur-md">
       <div className="container-page flex h-16 items-center justify-between">
         <BrandMark eager />
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-0.5 md:flex">
+        <nav className="hidden items-center self-stretch md:flex">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "rounded-[4px] px-3.5 py-1.5 text-[13px] font-semibold transition-colors",
+                "relative px-3.5 py-5 text-[13px] font-semibold transition-colors",
+                "after:absolute after:inset-x-3.5 after:bottom-0 after:h-[2px] after:transition-colors",
                 isActive(item.href)
-                  ? "bg-accent text-primary"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? "text-foreground after:bg-primary"
+                  : "text-muted-foreground after:bg-transparent hover:text-foreground",
               )}
             >
               {item.label}
@@ -38,9 +39,9 @@ export function SiteHeader() {
           ))}
           <Link
             href={CONTACT_HREF}
-            className="ml-3 rounded-md bg-primary px-4 py-2 text-[13px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            className="ml-4 rounded-[4px] bg-primary px-4 py-2 text-[13px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:translate-y-px"
           >
-            Contact Us
+            Talk to us
           </Link>
         </nav>
 
@@ -50,7 +51,7 @@ export function SiteHeader() {
           aria-label="Toggle menu"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex size-9 items-center justify-center rounded-md text-foreground md:hidden"
+          className="flex size-9 items-center justify-center rounded-[4px] text-foreground md:hidden"
         >
           <svg
             width="20"
@@ -79,7 +80,7 @@ export function SiteHeader() {
 
       {/* Mobile menu */}
       {open && (
-        <nav className="border-t border-border bg-white md:hidden">
+        <nav className="border-t border-rule bg-white md:hidden">
           <div className="container-page flex flex-col py-2">
             {NAV_ITEMS.map((item) => (
               <Link
@@ -87,10 +88,10 @@ export function SiteHeader() {
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "rounded-md px-3 py-2.5 text-sm font-semibold",
+                  "border-l-2 px-3 py-2.5 text-sm font-semibold",
                   isActive(item.href)
-                    ? "bg-accent text-primary"
-                    : "text-muted-foreground",
+                    ? "border-primary text-foreground"
+                    : "border-transparent text-muted-foreground",
                 )}
               >
                 {item.label}
@@ -99,9 +100,9 @@ export function SiteHeader() {
             <Link
               href={CONTACT_HREF}
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-md bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground"
+              className="mt-3 rounded-[4px] bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground"
             >
-              Contact Us
+              Talk to us
             </Link>
           </div>
         </nav>

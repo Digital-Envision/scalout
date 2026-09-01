@@ -1,151 +1,124 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
-  ArrowRight,
-  Check,
-  Minus,
-  X,
-  MapPin,
-  ShieldCheck,
-  Code2,
   Building2,
+  Check,
+  Code2,
+  Minus,
+  ShieldCheck,
   Users,
+  X,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
+import {
+  Cta,
+  CtaBand,
+  PLATE,
+  PageHero,
+  SectionHead,
+  TextLink,
+} from "@/components/site-kit";
 import { FaqAccordion } from "@/app/_components/faq-accordion";
 
 export const metadata: Metadata = {
   title: "Build Your Technology Team, Compliant from Day One",
   description:
-    "Scalout gives international companies a fully managed, legally compliant path to building technology teams in Indonesia — without establishing a local entity.",
+    "Scalout gives international companies a fully managed, legally compliant path to building technology teams in Indonesia, without establishing a local entity.",
 };
-
-/* ---------- Shared building blocks ---------- */
-
-function Eyebrow({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <p
-      className={`text-[11px] font-bold uppercase tracking-[0.13em] ${className}`}
-    >
-      {children}
-    </p>
-  );
-}
-
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="max-w-4xl text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-[35px]">
-      {children}
-    </h2>
-  );
-}
-
-const cardClass = "rounded-xl border border-border bg-muted/60 p-6";
 
 /* ---------- Hero ---------- */
 
 function Hero() {
   return (
-    <section className="bg-background">
-      <div className="container-page flex flex-col items-center pt-24 pb-20 text-center sm:pt-28">
-        <Eyebrow className="text-primary">Indonesia · Southeast Asia</Eyebrow>
-        <h1 className="mt-4 max-w-3xl text-4xl font-extrabold leading-[1.06] tracking-tight text-foreground sm:text-[56px]">
-          Build Your Technology Team.{" "}
-          <span className="text-primary">Compliant from Day One.</span>
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          Scalout gives international companies a fully managed, legally
-          compliant path to building technology teams in Indonesia — without
-          establishing a local entity.
-        </p>
-        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
-          <Button size="lg" className="h-10 gap-2 px-5 text-sm">
-            Talk to Our Team
-            <ArrowRight className="size-4" />
-          </Button>
-          <Button variant="outline" size="lg" className="h-10 px-5 text-sm">
-            Explore Our Services
-          </Button>
-        </div>
-        <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5">
-          <span className="size-1.5 rounded-full bg-primary" />
-          <span className="text-xs text-muted-foreground">
-            Formed from the merger of two Indonesia-based operations ·
-            Indonesia-incorporated · In-house EOR
-          </span>
-        </div>
-      </div>
-    </section>
+    <PageHero
+      size="home"
+      label="Indonesia · Southeast Asia"
+      title={
+        <>
+          Build your technology team.
+          <br />
+          Compliant from day one.
+        </>
+      }
+      lede="A fully managed, legally compliant path to building technology teams in Indonesia, without a local entity."
+      actions={
+        <>
+          <Cta href="/contact" tone="invert">
+            Talk to us
+          </Cta>
+          <Cta href="/service" tone="outline-ink">
+            See our services
+          </Cta>
+        </>
+      }
+    />
   );
 }
 
-/* ---------- By the numbers ---------- */
+/* ---------- Standing ---------- */
 
-const stats = [
-  "Employees managed",
-  "Years of experience",
-  "Client companies",
-  "Technology roles filled",
+const standing = [
+  {
+    title: "Indonesia-incorporated",
+    body: "Scalout operates as a local entity, not a remote intermediary.",
+  },
+  {
+    title: "Employer of record in-house",
+    body: "Built and run by Scalout, with no partner network in the chain.",
+  },
+  {
+    title: "Two operations, merged",
+    body: "Formed from Surya Digital Teknologi and VA For Everyone.",
+  },
 ];
 
-const clientLogos = [
-  "Client logo 1",
-  "Client logo 2",
-  "Client logo 3",
-  "Client logo 4",
-  "Client logo 5",
+const clients = [
+  { src: "/assets/landing/client-va.png", name: "VA For Everyone" },
+  { src: "/assets/landing/client-upscalix.png", name: "Upscalix" },
+  { src: "/assets/landing/client-sdt.png", name: "Surya Digital Teknologi" },
 ];
 
-function ByTheNumbers() {
+function Standing() {
   return (
-    <section className="border-y border-border bg-muted/60">
-      <div className="container-page py-14 text-center">
-        <Eyebrow className="text-muted-foreground">By the numbers</Eyebrow>
-        <div className="mt-8 grid grid-cols-2 gap-6 md:grid-cols-4">
-          {stats.map((label) => (
-            <div key={label} className="flex flex-col items-center">
-              <p className="text-3xl font-extrabold tracking-tight text-primary">
-                —
-              </p>
-              <p className="mt-1 text-sm font-semibold text-foreground">
-                {label}
-              </p>
-              <p className="mt-0.5 text-[10px] italic text-muted-foreground/60">
-                placeholder
-              </p>
+    <section className="border-b border-rule bg-card">
+      <div className="container-page py-12">
+        <dl className="grid gap-8 border-b border-rule pb-10 md:grid-cols-3">
+          {standing.map((item) => (
+            <div key={item.title}>
+              <dt className="text-sm font-bold text-foreground">
+                {item.title}
+              </dt>
+              <dd className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                {item.body}
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
 
-        <div className="mt-12">
-          <Eyebrow className="text-muted-foreground">Trusted by</Eyebrow>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-            {clientLogos.map((logo) => (
-              <div
-                key={logo}
-                className="flex h-10 w-28 items-center justify-center rounded-md border border-dashed border-border bg-card"
-              >
-                <span className="text-[10px] italic text-muted-foreground/50">
-                  {logo}
-                </span>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-[10px] italic text-muted-foreground/50">
-            Replace with real client logos before launch
+        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-12">
+          <p className="text-sm font-semibold text-muted-foreground">
+            Trusted by
           </p>
+          <ul className="flex flex-wrap items-center gap-x-10 gap-y-6">
+            {clients.map((client) => (
+              <li key={client.name} className="relative h-9 w-28">
+                <Image
+                  src={client.src}
+                  alt={client.name}
+                  fill
+                  sizes="112px"
+                  className="object-contain object-left opacity-70"
+                />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
   );
 }
 
-/* ---------- The Challenge ---------- */
+/* ---------- The challenge ---------- */
 
 const challenges = [
   {
@@ -154,93 +127,90 @@ const challenges = [
   },
   {
     title: "Compliance complexity",
-    body: "Employment law requirements in Southeast Asia are jurisdiction-specific and change regularly, adding ongoing legal overhead.",
+    body: "Employment law in Southeast Asia is jurisdiction-specific and changes regularly, adding ongoing legal overhead.",
   },
   {
     title: "Accountability gaps",
-    body: "Many cross-border employment solutions route through partner platforms, fragmenting who is actually responsible for compliance.",
+    body: "Many cross-border solutions route through partner platforms, fragmenting who is actually responsible for compliance.",
   },
   {
     title: "Competitive talent market",
-    body: "Singapore's technology talent market cannot keep up with demand. Building capacity in the region is a strategic necessity, not a fallback.",
+    body: "Singapore's technology talent market cannot keep up with demand. Building regional capacity is strategic, not a fallback.",
   },
 ];
 
 function Challenge() {
   return (
-    <section className="border-b border-border bg-muted/60">
-      <div className="container-page py-20">
-        <Eyebrow className="text-primary">The Challenge</Eyebrow>
-        <SectionHeading>
-          Hiring technology talent across borders is harder than it should be.
-        </SectionHeading>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          International companies building technology capacity in Indonesia often
-          reach the same decision point. What follows is a set of problems most
-          companies underestimate until they are already in the middle of them.
-        </p>
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <section className="border-b border-rule bg-background">
+      <div className="container-page grid gap-12 py-20 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:gap-20">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <SectionHead
+            title="Hiring across borders is harder than it should be."
+            body="Companies building technology capacity in Indonesia reach the same decision point, usually later than they would like."
+          />
+        </div>
+        <dl className="divide-y divide-rule border-t border-rule">
           {challenges.map((item) => (
-            <div key={item.title} className={cardClass}>
-              <p className="text-sm font-bold text-foreground">{item.title}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            <div key={item.title} className="py-6 first:pt-7">
+              <dt className="text-[15px] font-bold text-foreground">
+                {item.title}
+              </dt>
+              <dd className="mt-2 max-w-[60ch] text-[15px] leading-relaxed text-muted-foreground">
                 {item.body}
-              </p>
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );
 }
 
-/* ---------- Our Solution ---------- */
+/* ---------- Solution ---------- */
 
 const coverage = [
   "Offshore development teams, sourced and managed for you",
-  "Employer of Record via Scalout's own in-house infrastructure",
+  "Employer of record via Scalout's own in-house infrastructure",
   "Office space for teams that need a physical presence",
   "Recruitment and ongoing workforce management",
   "Payroll, contributions, and statutory compliance handled end to end",
-  "Everything under a single commercial agreement — one partner, one contract",
+  "One commercial agreement covering all of it",
 ];
 
 function Solution() {
   return (
-    <section className="bg-background">
-      <div className="container-page grid gap-16 py-20 lg:grid-cols-2">
-        <div>
-          <Eyebrow className="text-primary">Our Solution</Eyebrow>
-          <SectionHeading>Scalout resolves all of it.</SectionHeading>
-          <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-            Scalout is an Indonesia-based platform that bundles everything an
-            international company needs to build and legally employ a technology
-            team — handled under one commercial agreement, with Scalout as the
-            single accountable partner throughout.
-          </p>
-        </div>
-        <div>
-          <Eyebrow className="text-muted-foreground">What&apos;s covered</Eyebrow>
-          <ul className="mt-5 space-y-3">
-            {coverage.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <Check className="mt-0.5 size-[18px] shrink-0 text-primary" />
-                <span className="text-sm leading-snug text-foreground">
-                  {item}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 border-t border-border pt-6">
-            <p className="text-xs text-muted-foreground">
-              Looking for specific roles?
-            </p>
-            <Button variant="outline" className="mt-3 h-10 gap-2 px-5 text-sm">
-              View Available Roles
-              <ArrowRight className="size-4" />
-            </Button>
-          </div>
-        </div>
+    <section className="border-b border-rule bg-background">
+      <div className="container-page py-20">
+        <SectionHead
+          label="Our solution"
+          title="Scalout resolves all of it."
+          body="An Indonesia-based platform bundling everything an international company needs to build and legally employ a technology team, with Scalout as the single accountable partner."
+          aside={<TextLink href="/role">View roles</TextLink>}
+        />
+
+        <ul className="mt-12 grid gap-x-12 gap-y-1 md:grid-cols-2">
+          {coverage.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-3 border-t border-rule py-4"
+            >
+              <Check className="mt-0.5 size-[18px] shrink-0 text-primary" />
+              <span className="text-[15px] leading-snug text-foreground">
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <figure className="relative mt-14 h-[220px] overflow-hidden rounded-[4px] border border-rule sm:h-[280px]">
+          <Image
+            src="/assets/landing/office-operations.jpg"
+            alt="Scalout operations team working in the Indonesia office"
+            fill
+            sizes="(min-width: 1104px) 1056px, 100vw"
+            className="object-cover"
+          />
+        </figure>
       </div>
     </section>
   );
@@ -248,147 +218,59 @@ function Solution() {
 
 /* ---------- Why Scalout ---------- */
 
-const reasons = [
-  {
-    icon: MapPin,
-    title: "On-the-ground expertise in Indonesia.",
-    body: "Scalout operates directly in Indonesia. Our team understands local employment law, statutory requirements, and HR norms from the inside — not through a partner network or remote interpretation.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "No third-party hand-offs. Ever.",
-    body: "Our EOR system is built and operated in-house. When you engage Scalout, Scalout is the employer — not a subcontracted provider. That accountability matters when questions arise.",
-  },
-  {
-    icon: Code2,
-    title: "Built for tech teams, not generalist hiring.",
-    body: "We do not operate a generalist staffing model. Our sourcing, evaluation, and ongoing HR processes are designed specifically for technology roles and the people who fill them.",
-  },
-];
-
 function WhyScalout() {
   return (
-    <section className="border-b border-border bg-muted/60">
+    <section className="border-b border-rule bg-background">
       <div className="container-page py-20">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <Eyebrow className="text-primary">Why Scalout</Eyebrow>
-            <SectionHeading>
-              The direct path to a compliant technology team.
-            </SectionHeading>
-          </div>
-          <button className="inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-primary">
-            See the full comparison
-            <ArrowRight className="size-4" />
-          </button>
-        </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {reasons.map(({ icon: Icon, title, body }) => (
-            <div key={title} className={cardClass}>
-              <div className="flex size-8 items-center justify-center rounded-lg bg-accent">
-                <Icon className="size-4 text-primary" />
-              </div>
-              <p className="mt-4 text-sm font-bold text-foreground">{title}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {body}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+        <SectionHead
+          title="The direct path to a compliant technology team."
+          aside={<TextLink href="/why">Compare providers</TextLink>}
+        />
 
-/* ---------- Who We Serve ---------- */
+        <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <figure className="relative min-h-[260px] overflow-hidden rounded-[4px] border border-rule md:col-span-2 lg:row-span-2">
+            <Image
+              src="/assets/landing/workspace-office.jpg"
+              alt="Scalout workspace in Indonesia"
+              fill
+              sizes="(min-width: 1024px) 520px, (min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </figure>
 
-const markets = [
-  "Singapore",
-  "Australia",
-  "United Kingdom",
-  "United States",
-  "Japan",
-  "South Korea",
-  "European Union",
-  "New Zealand",
-];
-
-function WhoWeServe() {
-  return (
-    <section className="bg-background">
-      <div className="container-page py-20">
-        <Eyebrow className="text-primary">Who We Serve</Eyebrow>
-        <SectionHeading>Built to serve international businesses.</SectionHeading>
-        <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          Scalout&apos;s client base spans companies headquartered across
-          Asia-Pacific, Europe, and North America that are building or expanding
-          their technology teams in Indonesia.
-        </p>
-        <div className="mt-10 flex flex-wrap gap-2">
-          {markets.map((market) => (
-            <span
-              key={market}
-              className="rounded-full border border-border bg-muted/60 px-4 py-1.5 text-xs font-semibold text-foreground"
-            >
-              {market}
+          <article className="texture-dither rounded-[4px] border border-primary/20 bg-accent p-7 lg:col-span-2">
+            <span className="flex size-9 items-center justify-center rounded-[4px] bg-primary/10">
+              <ShieldCheck className="size-4 text-primary" aria-hidden />
             </span>
-          ))}
-        </div>
-        <div className="mt-12 rounded-xl border border-dashed border-border bg-muted/30 px-8 py-10">
-          <Eyebrow className="text-muted-foreground">Client testimonials</Eyebrow>
-          <p className="mt-2 text-sm italic leading-relaxed text-muted-foreground">
-            Client testimonials will appear here once available. No testimonials
-            have been fabricated or included as placeholders — this section will
-            be populated with real client feedback before launch.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
+            <h3 className="mt-5 text-[15px] font-bold text-foreground">
+              No third-party hand-offs. Ever.
+            </h3>
+            <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-muted-foreground">
+              Our EOR system is built and operated in-house. When you engage
+              Scalout, Scalout is the employer, not a subcontracted provider.
+              That accountability matters when questions arise.
+            </p>
+          </article>
 
-/* ---------- How It Works ---------- */
+          <article className={`${PLATE} p-7`}>
+            <h3 className="text-[15px] font-bold text-foreground">
+              On-the-ground in Indonesia
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Our team understands local employment law and HR norms from the
+              inside, not through a partner network.
+            </p>
+          </article>
 
-const steps = [
-  {
-    num: "01",
-    title: "Scope Your Engagement",
-    body: "We start by understanding your hiring requirements, target roles, team structure, and any compliance considerations.",
-  },
-  {
-    num: "02",
-    title: "Build Your Team",
-    body: "Talent is sourced, evaluated, and onboarded into Scalout's legal employment structure with compliant contracts in place.",
-  },
-  {
-    num: "03",
-    title: "Stay in Full Compliance",
-    body: "Payroll, statutory contributions, and compliance run continuously. Your team is operational; we manage the employment infrastructure.",
-  },
-];
-
-function HowItWorks() {
-  return (
-    <section className="border-b border-border bg-muted/60">
-      <div className="container-page py-20">
-        <Eyebrow className="text-primary">How It Works</Eyebrow>
-        <SectionHeading>Three steps to a running team.</SectionHeading>
-        <div className="mt-14 grid gap-10 md:grid-cols-3">
-          {steps.map((step) => (
-            <div key={step.num} className="flex gap-5">
-              <span className="font-mono text-[11px] font-black tracking-wider text-primary/30">
-                {step.num}
-              </span>
-              <div>
-                <p className="text-sm font-bold text-foreground">
-                  {step.title}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {step.body}
-                </p>
-              </div>
-            </div>
-          ))}
+          <article className={`${PLATE} p-7`}>
+            <h3 className="text-[15px] font-bold text-foreground">
+              Built for technology teams
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Sourcing, evaluation, and HR processes designed for engineering
+              roles rather than generalist staffing.
+            </p>
+          </article>
         </div>
       </div>
     </section>
@@ -408,7 +290,7 @@ const eorPoints = [
   },
   {
     title: "Indonesia-based operations",
-    body: "Our team operates directly in Indonesia — no proxy intermediary.",
+    body: "Our team operates directly in Indonesia, with no proxy in between.",
   },
   {
     title: "Full accountability",
@@ -418,32 +300,31 @@ const eorPoints = [
 
 function EorInfrastructure() {
   return (
-    <section className="border-y border-primary/15 bg-primary/[0.04]">
-      <div className="container-page grid items-center gap-10 py-16 lg:grid-cols-2">
+    <section className="texture-dither border-b border-rule bg-accent">
+      <div className="container-page grid items-start gap-12 py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)]">
         <div>
-          <h2 className="text-2xl font-bold leading-tight text-foreground sm:text-3xl">
-            EOR built on our own infrastructure — not a partner platform.
+          <h2 className="max-w-[22ch] text-[28px] font-bold leading-[1.15] tracking-tight text-foreground sm:text-[34px]">
+            EOR on our own infrastructure, not a partner platform.
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Most employer-of-record providers sub-contract local employment
-            through a network of country-specific partners. Scalout built and
-            operates its own EOR system. When you engage Scalout, Scalout is
-            the employer — fully and directly — with no intermediary in the
-            accountability chain.
+          <p className="mt-5 max-w-[58ch] text-[15px] leading-relaxed text-muted-foreground">
+            Most providers sub-contract local employment through a network of
+            country-specific partners. Scalout built and operates its own EOR
+            system, so there is no intermediary in the accountability chain.
           </p>
-          <button className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-            See how we compare
-            <ArrowRight className="size-4" />
-          </button>
+          <div className="mt-7">
+            <TextLink href="/why">Compare providers</TextLink>
+          </div>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2">
           {eorPoints.map((point) => (
             <div
               key={point.title}
-              className="rounded-xl border border-border bg-muted/60 p-4"
+              className="rounded-[4px] border border-primary/15 bg-card p-5"
             >
-              <p className="text-xs font-bold text-foreground">{point.title}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              <p className="text-[13px] font-bold text-foreground">
+                {point.title}
+              </p>
+              <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
                 {point.body}
               </p>
             </div>
@@ -454,65 +335,111 @@ function EorInfrastructure() {
   );
 }
 
-/* ---------- Our Services ---------- */
+/* ---------- How it works ---------- */
+
+const steps = [
+  {
+    title: "Scope your engagement",
+    body: "We start with your hiring requirements, target roles, team structure, and any compliance considerations.",
+  },
+  {
+    title: "Build your team",
+    body: "Talent is sourced, evaluated, and onboarded into Scalout's legal employment structure with compliant contracts in place.",
+  },
+  {
+    title: "Stay in full compliance",
+    body: "Payroll, statutory contributions, and compliance run continuously while your team gets on with the work.",
+  },
+];
+
+function HowItWorks() {
+  return (
+    <section className="border-b border-rule bg-background">
+      <div className="container-page py-20">
+        <SectionHead label="How it works" title="Three steps to a running team." />
+
+        <ol className="relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+          <span
+            aria-hidden
+            className="absolute inset-x-0 top-[3px] hidden h-px bg-rule md:block"
+          />
+          {steps.map((step) => (
+            <li key={step.title} className="relative">
+              <span
+                aria-hidden
+                className="block size-[7px] rounded-[1px] bg-primary"
+              />
+              <h3 className="mt-5 text-[15px] font-bold text-foreground">
+                {step.title}
+              </h3>
+              <p className="mt-2 max-w-[42ch] text-sm leading-relaxed text-muted-foreground">
+                {step.body}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Services ---------- */
 
 const services = [
   {
     icon: Code2,
-    kicker: "Offshore Development",
-    title: "Offshore Development Teams",
+    title: "Offshore development teams",
     body: "Build and scale dedicated technology teams in Indonesia, fully employed and managed by Scalout.",
+    tinted: true,
   },
   {
     icon: ShieldCheck,
-    kicker: "Employer of Record",
-    title: "Employer of Record (EOR)",
-    body: "Scalout employs your people through its own in-house EOR infrastructure — full accountability, no third parties.",
+    title: "Employer of record",
+    body: "Scalout employs your people through its own in-house EOR infrastructure, with no third parties involved.",
+    tinted: false,
   },
   {
     icon: Building2,
-    kicker: "Office Placement",
-    title: "Office Placement",
+    title: "Office placement",
     body: "Physical workspace for teams that need a local presence, coordinated with EOR under one engagement.",
+    tinted: false,
   },
   {
     icon: Users,
-    kicker: "Recruitment",
-    title: "Recruitment & Workforce Management",
-    body: "End-to-end technology talent sourcing and ongoing workforce management within the Scalout structure.",
+    title: "Recruitment and workforce management",
+    body: "End-to-end technology talent sourcing and ongoing workforce management inside the Scalout structure.",
+    tinted: true,
   },
 ];
 
 function Services() {
   return (
-    <section className="bg-background">
+    <section className="border-b border-rule bg-background">
       <div className="container-page py-20">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <Eyebrow className="text-primary">Our Services</Eyebrow>
-            <SectionHeading>Four services, one partner.</SectionHeading>
-          </div>
-          <button className="inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-primary">
-            See all services
-            <ArrowRight className="size-4" />
-          </button>
-        </div>
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map(({ icon: Icon, kicker, title, body }) => (
-            <div key={title} className={cardClass}>
-              <div className="flex size-9 items-center justify-center rounded-lg bg-accent">
-                <Icon className="size-4 text-primary" />
-              </div>
-              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.1em] text-primary">
-                {kicker}
-              </p>
-              <p className="mt-1.5 text-sm font-bold text-foreground">
+        <SectionHead
+          title="Four services, one partner."
+          aside={<TextLink href="/service">See our services</TextLink>}
+        />
+        <div className="mt-12 grid gap-4 sm:grid-cols-2">
+          {services.map(({ icon: Icon, title, body, tinted }) => (
+            <article
+              key={title}
+              className={
+                tinted
+                  ? "texture-dither rounded-[4px] border border-primary/20 bg-accent p-8"
+                  : `${PLATE} p-8`
+              }
+            >
+              <span className="flex size-9 items-center justify-center rounded-[4px] bg-primary/10">
+                <Icon className="size-4 text-primary" aria-hidden />
+              </span>
+              <h3 className="mt-5 text-base font-bold text-foreground">
                 {title}
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              </h3>
+              <p className="mt-2 max-w-[50ch] text-sm leading-relaxed text-muted-foreground">
                 {body}
               </p>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -520,11 +447,47 @@ function Services() {
   );
 }
 
-/* ---------- Comparison table ---------- */
+/* ---------- Who we serve ---------- */
+
+const markets = [
+  "Singapore",
+  "Australia",
+  "United Kingdom",
+  "United States",
+  "Japan",
+  "South Korea",
+  "European Union",
+  "New Zealand",
+];
+
+function WhoWeServe() {
+  return (
+    <section className="border-b border-rule bg-muted">
+      <div className="container-page py-20">
+        <SectionHead
+          title="Built to serve international businesses."
+          body="Our client base spans companies headquartered across Asia-Pacific, Europe, and North America that are building technology teams in Indonesia."
+        />
+        <ul className="mt-10 flex flex-wrap gap-2">
+          {markets.map((market) => (
+            <li
+              key={market}
+              className="data-label rounded-[3px] border border-rule bg-card px-3 py-2 text-foreground"
+            >
+              {market}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Comparison ---------- */
 
 type Support = "yes" | "partial" | "no";
 
-const comparisonColumns = ["Scalout", "Typical EOR Platform", "Staffing Agency"];
+const comparisonColumns = ["Scalout", "Typical EOR platform", "Staffing agency"];
 
 const comparisonRows: {
   capability: string;
@@ -542,16 +505,17 @@ const comparisonRows: {
   },
 ];
 
+const supportMap = {
+  yes: { Icon: Check, label: "Yes", color: "text-emerald-700" },
+  partial: { Icon: Minus, label: "Partial", color: "text-amber-700" },
+  no: { Icon: X, label: "No", color: "text-rose-600" },
+} as const;
+
 function SupportCell({ value }: { value: Support }) {
-  const map = {
-    yes: { Icon: Check, label: "Yes", color: "text-[#009966]" },
-    partial: { Icon: Minus, label: "Partial", color: "text-[#e17100]" },
-    no: { Icon: X, label: "No", color: "text-[#ff637e]" },
-  } as const;
-  const { Icon, label, color } = map[value];
+  const { Icon, label, color } = supportMap[value];
   return (
     <span className={`inline-flex items-center gap-1.5 ${color}`}>
-      <Icon className="size-4" />
+      <Icon className="size-4" aria-hidden />
       <span className="text-xs font-semibold">{label}</span>
     </span>
   );
@@ -559,28 +523,26 @@ function SupportCell({ value }: { value: Support }) {
 
 function Comparison() {
   return (
-    <section className="border-y border-border bg-muted/60">
+    <section className="border-b border-rule bg-background">
       <div className="container-page py-20">
-        <Eyebrow className="text-primary">How We Compare</Eyebrow>
-        <SectionHeading>Scalout vs. the alternatives</SectionHeading>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          A direct comparison of what Scalout covers versus typical
-          alternatives. Individual providers vary — always verify directly.
-        </p>
-        <div className="mt-10 overflow-x-auto rounded-xl border border-border">
+        <SectionHead
+          label="How we compare"
+          title="Scalout vs. the alternatives"
+          body="What Scalout covers against the typical alternatives. Individual providers vary, so it is always worth verifying directly."
+        />
+
+        <div className="mt-10 overflow-x-auto rounded-[4px] border border-rule">
           <table className="w-full min-w-[640px] border-collapse text-left">
             <thead>
-              <tr className="border-b border-border bg-muted/60">
-                <th className="px-6 py-4 text-sm font-semibold text-foreground">
+              <tr className="border-b border-rule bg-muted">
+                <th className="data-label px-6 py-4 text-muted-foreground">
                   Capability
                 </th>
                 {comparisonColumns.map((col, i) => (
                   <th
                     key={col}
-                    className={`px-6 py-4 text-center text-sm ${
-                      i === 0
-                        ? "font-bold text-primary"
-                        : "font-semibold text-muted-foreground"
+                    className={`data-label px-6 py-4 text-center ${
+                      i === 0 ? "text-primary" : "text-muted-foreground"
                     }`}
                   >
                     {col}
@@ -589,12 +551,10 @@ function Comparison() {
               </tr>
             </thead>
             <tbody>
-              {comparisonRows.map((row, idx) => (
+              {comparisonRows.map((row) => (
                 <tr
                   key={row.capability}
-                  className={`border-b border-border last:border-0 ${
-                    idx % 2 === 1 ? "bg-muted/25" : "bg-card"
-                  }`}
+                  className="border-b border-rule bg-card last:border-0"
                 >
                   <td className="px-6 py-3.5 text-sm text-foreground">
                     {row.capability}
@@ -609,36 +569,11 @@ function Comparison() {
             </tbody>
           </table>
         </div>
-        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+
+        <p className="mt-4 max-w-[70ch] text-xs leading-relaxed text-muted-foreground">
           &quot;Partial&quot; indicates the capability exists in some form but is
           not a core or consistent offering across the category.
         </p>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- CTA band ---------- */
-
-function CtaBand() {
-  return (
-    <section className="bg-primary">
-      <div className="container-page flex flex-col items-center py-16 text-center">
-        <h2 className="text-2xl font-bold text-primary-foreground sm:text-3xl">
-          Ready to build your team?
-        </h2>
-        <p className="mt-4 max-w-xl text-lg leading-relaxed text-primary-foreground/70">
-          Every Scalout engagement is custom-scoped to your roles, team size,
-          and requirements. Talk to our team to get started.
-        </p>
-        <Button
-          variant="outline"
-          size="lg"
-          className="mt-8 h-10 gap-2 border-white/30 bg-transparent px-5 text-sm text-primary-foreground hover:bg-white/10 hover:text-primary-foreground"
-        >
-          Talk to Our Team
-          <ArrowRight className="size-4" />
-        </Button>
       </div>
     </section>
   );
@@ -650,8 +585,7 @@ function Faq() {
   return (
     <section className="bg-background">
       <div className="container-page max-w-3xl py-20">
-        <Eyebrow className="text-primary">FAQ</Eyebrow>
-        <SectionHeading>Common questions.</SectionHeading>
+        <SectionHead title="Common questions." />
         <FaqAccordion />
       </div>
     </section>
@@ -664,17 +598,30 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <ByTheNumbers />
+      <Standing />
       <Challenge />
       <Solution />
       <WhyScalout />
-      <WhoWeServe />
-      <HowItWorks />
       <EorInfrastructure />
+      <HowItWorks />
       <Services />
+      <WhoWeServe />
       <Comparison />
-      <CtaBand />
       <Faq />
+      <CtaBand
+        title="Ready to build your team?"
+        body="Every engagement is custom-scoped to your roles, team size, and requirements."
+        actions={
+          <>
+            <Cta href="/contact" tone="invert">
+              Talk to us
+            </Cta>
+            <Cta href="/role" tone="outline-ink">
+              View roles
+            </Cta>
+          </>
+        }
+      />
     </>
   );
 }

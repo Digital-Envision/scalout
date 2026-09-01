@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
-  ArrowRight,
   Bug,
   ClipboardList,
   Code2,
@@ -13,10 +11,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { Cta, CtaBand, PageHero, SectionHead } from "@/components/site-kit";
+
 export const metadata: Metadata = {
   title: "Role Availability",
   description:
-    "Scalout sources, employs, and manages technology professionals across a range of disciplines. The roles below reflect the categories we recruit for — descriptions are capability-focused and do not represent real-time staffing availability.",
+    "Scalout sources, employs, and manages technology professionals across a range of disciplines. These are the categories we recruit for, not a real-time staffing board.",
 };
 
 type Role = {
@@ -30,83 +30,83 @@ type Role = {
 const roles: Role[] = [
   {
     category: "Engineering",
-    title: "Backend Developer",
+    title: "Backend developer",
     Icon: Server,
     description:
-      "Server-side engineers who design and build APIs, data pipelines, and application logic. Scalout sources across multiple backend disciplines and seniority levels.",
-    skills: ["Node.js", "Python", "Go", "Java", "PostgreSQL", "REST", "GraphQL"],
+      "Server-side engineers who design and build APIs, data pipelines, and application logic, sourced across backend disciplines and seniority levels.",
+    skills: ["Node.js", "Python", "Go", "Java", "PostgreSQL", "GraphQL"],
   },
   {
     category: "Engineering",
-    title: "Frontend Developer",
+    title: "Frontend developer",
     Icon: Monitor,
     description:
-      "Client-side engineers focused on building performant, accessible web interfaces. Sourced across modern JavaScript frameworks and component-driven workflows.",
-    skills: ["React", "Vue", "TypeScript", "Next.js", "Tailwind CSS", "HTML/CSS"],
+      "Client-side engineers building performant, accessible web interfaces across modern JavaScript frameworks and component-driven workflows.",
+    skills: ["React", "Vue", "TypeScript", "Next.js", "Tailwind CSS"],
   },
   {
-    category: "Quality Assurance",
-    title: "QA Engineer",
+    category: "Quality assurance",
+    title: "QA engineer",
     Icon: Bug,
     description:
-      "Engineers who design and execute test strategies across manual and automated disciplines. Embedded in development teams or operating as a dedicated QA function.",
-    skills: ["Selenium", "Cypress", "Playwright", "Jest", "Postman", "Test planning"],
+      "Engineers who design and run test strategies across manual and automated disciplines, embedded in delivery teams or as a dedicated QA function.",
+    skills: ["Selenium", "Cypress", "Playwright", "Jest", "Test planning"],
   },
   {
     category: "Design",
-    title: "UI/UX Designer",
+    title: "UI/UX designer",
     Icon: Layers,
     description:
-      "Designers who translate product requirements into user interfaces — covering wireframes, interaction design, and design systems aligned to engineering handoff.",
-    skills: ["Figma", "Prototyping", "Design systems", "Usability research", "Accessibility"],
+      "Designers who translate product requirements into interfaces, covering wireframes, interaction design, and design systems built for engineering handoff.",
+    skills: ["Figma", "Prototyping", "Design systems", "Accessibility"],
   },
   {
     category: "Data",
-    title: "Data Engineer",
+    title: "Data engineer",
     Icon: Database,
     description:
       "Engineers who build and maintain the data infrastructure underpinning analytics, reporting, and machine learning workloads.",
-    skills: ["Python", "SQL", "dbt", "Airflow", "Spark", "BigQuery", "Snowflake"],
+    skills: ["Python", "SQL", "dbt", "Airflow", "Spark", "BigQuery"],
   },
   {
     category: "Engineering",
-    title: "Mobile Developer",
+    title: "Mobile developer",
     Icon: Code2,
     description:
       "Engineers specialising in native and cross-platform mobile application development across iOS and Android.",
-    skills: ["React Native", "Flutter", "Swift", "Kotlin", "Expo", "App Store deployment"],
+    skills: ["React Native", "Flutter", "Swift", "Kotlin", "Expo"],
   },
   {
     category: "Engineering",
-    title: "DevOps / Platform Engineer",
+    title: "DevOps / platform engineer",
     Icon: ShieldCheck,
     description:
       "Engineers who build and manage the infrastructure, CI/CD pipelines, and deployment environments your development teams rely on.",
-    skills: ["AWS", "GCP", "Terraform", "Docker", "Kubernetes", "GitHub Actions"],
+    skills: ["AWS", "GCP", "Terraform", "Docker", "Kubernetes"],
   },
   {
-    category: "Product & Delivery",
-    title: "Project / Product Manager",
+    category: "Product and delivery",
+    title: "Project / product manager",
     Icon: ClipboardList,
     description:
-      "Professionals who manage delivery cadence, product roadmaps, and cross-functional coordination within technology teams.",
-    skills: ["Agile", "Scrum", "Jira", "Roadmap planning", "Stakeholder management"],
+      "Professionals who manage delivery cadence, product roadmaps, and cross-functional coordination inside technology teams.",
+    skills: ["Agile", "Scrum", "Jira", "Roadmap planning"],
   },
 ];
 
 function RoleCard({ role }: { role: Role }) {
   const { Icon } = role;
   return (
-    <article className="flex flex-col rounded-xl border border-border bg-muted p-6">
+    <article className="flex flex-col border-b border-r border-rule p-7">
       <div className="flex items-start gap-4">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-[4px] bg-primary/10">
           <Icon className="size-4 text-primary" aria-hidden />
-        </div>
+        </span>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-primary">
-            {role.category}
-          </p>
-          <h3 className="mt-0.5 text-sm font-bold text-foreground">{role.title}</h3>
+          <p className="data-label text-primary">{role.category}</p>
+          <h3 className="mt-1.5 text-[15px] font-bold text-foreground">
+            {role.title}
+          </h3>
         </div>
       </div>
 
@@ -114,16 +114,16 @@ function RoleCard({ role }: { role: Role }) {
         {role.description}
       </p>
 
-      <div className="mt-auto flex flex-wrap gap-2 pt-6">
+      <ul className="mt-auto flex flex-wrap gap-1.5 pt-6">
         {role.skills.map((skill) => (
-          <span
+          <li
             key={skill}
-            className="rounded border border-border bg-secondary/50 px-2 py-0.5 text-[10px] font-semibold text-muted-foreground"
+            className="tnum rounded-[3px] border border-rule bg-muted px-2 py-1 text-[11px] font-medium text-muted-foreground"
           >
             {skill}
-          </span>
+          </li>
         ))}
-      </div>
+      </ul>
     </article>
   );
 }
@@ -131,77 +131,66 @@ function RoleCard({ role }: { role: Role }) {
 export default function RolePage() {
   return (
     <>
-      <section className="border-b border-border bg-secondary/50">
-        <div className="container-page py-20">
-          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
-            Role Availability
-          </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
-            The roles we hire for.
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Scalout sources, employs, and manages technology professionals across a range of
-            disciplines. The roles below reflect the categories we recruit for — descriptions are
-            capability-focused and do not represent real-time staffing availability.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        label="Role availability"
+        title="The roles we hire for."
+        lede="The technology disciplines Scalout sources, employs, and manages. Exact titles and seniority are scoped per engagement."
+        actions={
+          <>
+            <Cta href="/contact" tone="invert">
+              Talk to us
+            </Cta>
+            <Cta href="/service" tone="outline-ink">
+              See our services
+            </Cta>
+          </>
+        }
+      />
 
-      <section className="bg-background">
+      <section className="border-b border-rule bg-background">
         <div className="container-page py-20">
-          <p className="text-xs font-bold uppercase tracking-[0.1em] text-muted-foreground">
-            Current role categories — exact titles and seniority scoped per engagement
-          </p>
+          <SectionHead
+            title="Eight categories, scoped per engagement."
+            body="Descriptions below are capability-focused. They describe what we recruit for rather than a live staffing board."
+          />
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid border-l border-t border-rule sm:grid-cols-2">
             {roles.map((role) => (
               <RoleCard key={role.title} role={role} />
             ))}
           </div>
 
-          <div className="mt-12 flex flex-col items-start gap-6 rounded-xl border border-primary/20 bg-primary/[0.06] px-7 py-8 md:flex-row md:items-center md:justify-between">
+          <div className="texture-dither mt-12 flex flex-col items-start gap-6 rounded-[4px] border border-primary/20 bg-accent px-8 py-8 md:flex-row md:items-center md:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.1em] text-primary">
-                Don&apos;t see your role?
+              <p className="text-[15px] font-bold text-foreground">
+                Do not see your role?
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                The roles listed here reflect Scalout&apos;s primary hiring categories. If your
-                requirement sits adjacent to one of these disciplines — or spans multiple roles —
-                talk to our team. Engagements are scoped to your specific requirements, not a fixed
+                These are our primary hiring categories. If your requirement
+                sits next to one of them, or spans several, talk to us.
+                Engagements are scoped to what you need, not to a fixed
                 catalogue.
               </p>
             </div>
-            <Link
-              href="/contact"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Contact Us
-              <ArrowRight className="size-4" aria-hidden />
-            </Link>
+            <Cta href="/contact">Talk to us</Cta>
           </div>
         </div>
       </section>
 
-      <section className="bg-primary">
-        <div className="container-page py-16 text-center">
-          <h2 className="text-3xl font-bold text-primary-foreground">
-            Ready to scope your team?
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-primary-foreground/70">
-            Tell us the roles, seniority levels, and team size you need. We will scope an engagement
-            around your specific requirements.
-          </p>
-          <div className="mt-8 flex justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-primary-foreground/30 px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/10"
-            >
-              Talk to Our Team
-              <ArrowRight className="size-4" aria-hidden />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CtaBand
+        title="Ready to scope your team?"
+        body="Tell us the roles, seniority levels, and team size you need, and we will scope an engagement around them."
+        actions={
+          <>
+            <Cta href="/contact" tone="invert">
+              Talk to us
+            </Cta>
+            <Cta href="/why" tone="outline-ink">
+              Compare providers
+            </Cta>
+          </>
+        }
+      />
     </>
   );
 }

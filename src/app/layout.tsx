@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SITE_URL } from "@/lib/site";
@@ -10,14 +10,21 @@ const jakarta = Plus_Jakarta_Sans({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+/** Data face: field labels, numerals, table figures. */
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  weight: ["400", "500", "600"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Scalout — Build Your Technology Team, Compliant from Day One",
+    default: "Scalout: Build Your Technology Team, Compliant from Day One",
     template: "%s · Scalout",
   },
   description:
-    "Scalout helps international companies build and legally employ technology teams in Southeast Asia — fully managed employment, compliant from day one.",
+    "Scalout helps international companies build and legally employ technology teams in Southeast Asia. Fully managed employment, compliant from day one.",
 };
 
 /**
@@ -33,7 +40,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full antialiased font-sans", jakarta.variable)}
+      className={cn(
+        "h-full antialiased font-sans",
+        jakarta.variable,
+        jetbrains.variable,
+      )}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
         {children}
