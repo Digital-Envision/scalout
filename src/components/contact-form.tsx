@@ -52,11 +52,27 @@ const INITIAL_VALUES: FormValues = {
   message: "",
 };
 
-const fieldClasses =
-  "w-full rounded-md border border-border bg-muted px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring/25 aria-[invalid=true]:border-destructive";
+const FIELD_BASE =
+  "w-full bg-muted px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring/30 aria-[invalid=true]:border-destructive";
+
+/** `landing` keeps the rounder Figma treatment; `default` uses site radii. */
+const FIELD_SHAPE = {
+  landing: "rounded-md border border-border",
+  default: "rounded-[4px] border border-rule",
+} as const;
+
+/** Realistic, locale-appropriate sample values rather than Jane Doe / Acme. */
+const PLACEHOLDERS = {
+  landing: { fullName: "Jane Smith", workEmail: "jane@company.com", companyName: "Your company" },
+  default: {
+    fullName: "Priya Raghunathan",
+    workEmail: "priya@northmark.io",
+    companyName: "Northmark Systems",
+  },
+} as const;
 
 function RequiredMark() {
-  return <span className="text-[#c8102e]"> *</span>;
+  return <span className="text-destructive"> *</span>;
 }
 
 function Optional() {
@@ -83,6 +99,8 @@ export function ContactForm({
   submitLabel?: string;
 } = {}) {
   const isLanding = variant === "landing";
+  const fieldClasses = cn(FIELD_BASE, FIELD_SHAPE[isLanding ? "landing" : "default"]);
+  const placeholders = PLACEHOLDERS[isLanding ? "landing" : "default"];
   const labelClasses = cn(
     "block font-semibold text-foreground",
     isLanding ? "text-xs leading-4" : "text-sm",
@@ -157,12 +175,12 @@ export function ContactForm({
 
   if (submitted) {
     return (
-      <div className="flex flex-col items-start gap-4 rounded-xl border border-border bg-secondary/50 p-8">
+      <div className="flex flex-col items-start gap-4 rounded-[4px] border border-rule bg-secondary/60 p-8">
         <span className="flex size-12 items-center justify-center rounded-full bg-accent text-primary">
           <CheckCircle2 className="size-6" />
         </span>
         <h2 className="text-2xl font-bold tracking-tight text-foreground">
-          Thank you — your enquiry is on its way.
+          Thank you. Your enquiry is on its way.
         </h2>
         <p className="max-w-prose text-muted-foreground">
           We have received your details and a member of the Scalout team will be
@@ -208,7 +226,7 @@ export function ContactForm({
             id="fullName"
             name="fullName"
             type="text"
-            placeholder="Jane Smith"
+            placeholder={placeholders.fullName}
             autoComplete="name"
             value={values.fullName}
             aria-invalid={Boolean(errors.fullName)}
@@ -232,7 +250,7 @@ export function ContactForm({
             id="workEmail"
             name="workEmail"
             type="email"
-            placeholder="jane@company.com"
+            placeholder={placeholders.workEmail}
             autoComplete="email"
             value={values.workEmail}
             aria-invalid={Boolean(errors.workEmail)}
@@ -262,7 +280,7 @@ export function ContactForm({
           id="companyName"
           name="companyName"
           type="text"
-          placeholder={isLanding ? "Your company" : "Acme Pte Ltd"}
+          placeholder={placeholders.companyName}
           autoComplete="organization"
           value={values.companyName}
           aria-invalid={Boolean(errors.companyName)}
@@ -389,8 +407,10 @@ export function ContactForm({
         type="submit"
         disabled={submitting}
         className={cn(
-          "mt-1 rounded-md text-sm",
-          isLanding ? "h-11 self-start px-8" : "h-10 w-full",
+          "mt-1 text-sm",
+          isLanding
+            ? "h-11 self-start rounded-md px-8"
+            : "h-11 w-full rounded-[4px]",
         )}
       >
         {submitting ? "Sending…" : (submitLabel ?? "Send Enquiry")}
@@ -403,7 +423,7 @@ export function ContactForm({
         </p>
       ) : (
         <p className="text-center text-xs text-muted-foreground">
-          Fields marked <span className="text-[#c8102e]">*</span> are required.
+          Fields marked <span className="text-destructive">*</span> are required.
           Country is required to help us understand which market you are
           expanding from.
         </p>
