@@ -41,7 +41,7 @@ export function SiteFooter() {
 
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <p className="data-label text-white/40">{col.title}</p>
+              <p className="data-label text-white/60">{col.title}</p>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
@@ -58,7 +58,7 @@ export function SiteFooter() {
           ))}
 
           <div>
-            <p className="data-label text-white/40">Contact</p>
+            <p className="data-label text-white/60">Contact</p>
             <ul className="mt-4 space-y-2.5">
               <li>
                 <Link
@@ -80,7 +80,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Scalout. All rights reserved.</p>
           <p>Indonesia operations hub</p>
         </div>

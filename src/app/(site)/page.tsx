@@ -245,7 +245,7 @@ function WhyScalout() {
             <h3 className="mt-5 text-[15px] font-bold text-foreground">
               No third-party hand-offs. Ever.
             </h3>
-            <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-on-tint">
               Our EOR system is built and operated in-house. When you engage
               Scalout, Scalout is the employer, not a subcontracted provider.
               That accountability matters when questions arise.
@@ -256,7 +256,7 @@ function WhyScalout() {
             <h3 className="text-[15px] font-bold text-foreground">
               On-the-ground in Indonesia
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-sm leading-relaxed text-on-tint">
               Our team understands local employment law and HR norms from the
               inside, not through a partner network.
             </p>
@@ -266,7 +266,7 @@ function WhyScalout() {
             <h3 className="text-[15px] font-bold text-foreground">
               Built for technology teams
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-sm leading-relaxed text-on-tint">
               Sourcing, evaluation, and HR processes designed for engineering
               roles rather than generalist staffing.
             </p>
@@ -306,7 +306,7 @@ function EorInfrastructure() {
           <h2 className="max-w-[22ch] text-[28px] font-bold leading-[1.15] tracking-tight text-foreground sm:text-[34px]">
             EOR on our own infrastructure, not a partner platform.
           </h2>
-          <p className="mt-5 max-w-[58ch] text-[15px] leading-relaxed text-muted-foreground">
+          <p className="mt-5 max-w-[58ch] text-[15px] leading-relaxed text-on-tint">
             Most providers sub-contract local employment through a network of
             country-specific partners. Scalout built and operates its own EOR
             system, so there is no intermediary in the accountability chain.
@@ -436,7 +436,7 @@ function Services() {
               <h3 className="mt-5 text-base font-bold text-foreground">
                 {title}
               </h3>
-              <p className="mt-2 max-w-[50ch] text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 max-w-[50ch] text-sm leading-relaxed text-on-tint">
                 {body}
               </p>
             </article>

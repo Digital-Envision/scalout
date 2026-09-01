@@ -150,7 +150,7 @@ export default function RolePage() {
       <section className="border-b border-rule bg-background">
         <div className="container-page py-20">
           <SectionHead
-            title="Eight categories, scoped per engagement."
+            title="Eight roles, scoped per engagement."
             body="Descriptions below are capability-focused. They describe what we recruit for rather than a live staffing board."
           />
 
@@ -165,7 +165,7 @@ export default function RolePage() {
               <p className="text-[15px] font-bold text-foreground">
                 Do not see your role?
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-sm leading-relaxed text-on-tint">
                 These are our primary hiring categories. If your requirement
                 sits next to one of them, or spans several, talk to us.
                 Engagements are scoped to what you need, not to a fixed
