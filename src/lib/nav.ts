@@ -7,7 +7,7 @@ export type NavItem = {
 export const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/service" },
-  { label: "Why ScaleOut", href: "/why" },
+  { label: "Why Scalout", href: "/why" },
   { label: "About Us", href: "/about" },
   { label: "Role Availability", href: "/role" },
 ];

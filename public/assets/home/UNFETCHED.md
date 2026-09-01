@@ -8,7 +8,7 @@ of downloading short-lived SVGs:
 
 - Hero / CTA / link arrows → `ArrowRight`
 - "What's covered" list checks (Our Solution) → `Check`
-- Why ScaleOut cards → `MapPin`, `ShieldCheck`, `Code2`
+- Why Scalout cards → `MapPin`, `ShieldCheck`, `Code2`
 - Our Services cards → `Code2`, `ShieldCheck`, `Building2`, `Users`
 - Comparison table status → `Check` (Yes), `Minus` (Partial), `X` (No)
 - FAQ row affordance → `ChevronDown`

@@ -16,7 +16,7 @@ import { FaqAccordion } from "@/app/_components/faq-accordion";
 export const metadata: Metadata = {
   title: "Build Your Technology Team, Compliant from Day One",
   description:
-    "ScaleOut gives international companies a fully managed, legally compliant path to building technology teams in Indonesia — without establishing a local entity.",
+    "Scalout gives international companies a fully managed, legally compliant path to building technology teams in Indonesia — without establishing a local entity.",
 };
 
 /* ---------- Shared building blocks ---------- */
@@ -59,7 +59,7 @@ function Hero() {
           <span className="text-primary">Compliant from Day One.</span>
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          ScaleOut gives international companies a fully managed, legally
+          Scalout gives international companies a fully managed, legally
           compliant path to building technology teams in Indonesia — without
           establishing a local entity.
         </p>
@@ -198,7 +198,7 @@ function Challenge() {
 
 const coverage = [
   "Offshore development teams, sourced and managed for you",
-  "Employer of Record via ScaleOut's own in-house infrastructure",
+  "Employer of Record via Scalout's own in-house infrastructure",
   "Office space for teams that need a physical presence",
   "Recruitment and ongoing workforce management",
   "Payroll, contributions, and statutory compliance handled end to end",
@@ -211,11 +211,11 @@ function Solution() {
       <div className="container-page grid gap-16 py-20 lg:grid-cols-2">
         <div>
           <Eyebrow className="text-primary">Our Solution</Eyebrow>
-          <SectionHeading>ScaleOut resolves all of it.</SectionHeading>
+          <SectionHeading>Scalout resolves all of it.</SectionHeading>
           <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-            ScaleOut is an Indonesia-based platform that bundles everything an
+            Scalout is an Indonesia-based platform that bundles everything an
             international company needs to build and legally employ a technology
-            team — handled under one commercial agreement, with ScaleOut as the
+            team — handled under one commercial agreement, with Scalout as the
             single accountable partner throughout.
           </p>
         </div>
@@ -246,18 +246,18 @@ function Solution() {
   );
 }
 
-/* ---------- Why ScaleOut ---------- */
+/* ---------- Why Scalout ---------- */
 
 const reasons = [
   {
     icon: MapPin,
     title: "On-the-ground expertise in Indonesia.",
-    body: "ScaleOut operates directly in Indonesia. Our team understands local employment law, statutory requirements, and HR norms from the inside — not through a partner network or remote interpretation.",
+    body: "Scalout operates directly in Indonesia. Our team understands local employment law, statutory requirements, and HR norms from the inside — not through a partner network or remote interpretation.",
   },
   {
     icon: ShieldCheck,
     title: "No third-party hand-offs. Ever.",
-    body: "Our EOR system is built and operated in-house. When you engage ScaleOut, ScaleOut is the employer — not a subcontracted provider. That accountability matters when questions arise.",
+    body: "Our EOR system is built and operated in-house. When you engage Scalout, Scalout is the employer — not a subcontracted provider. That accountability matters when questions arise.",
   },
   {
     icon: Code2,
@@ -266,13 +266,13 @@ const reasons = [
   },
 ];
 
-function WhyScaleOut() {
+function WhyScalout() {
   return (
     <section className="border-b border-border bg-muted/60">
       <div className="container-page py-20">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <Eyebrow className="text-primary">Why ScaleOut</Eyebrow>
+            <Eyebrow className="text-primary">Why Scalout</Eyebrow>
             <SectionHeading>
               The direct path to a compliant technology team.
             </SectionHeading>
@@ -320,7 +320,7 @@ function WhoWeServe() {
         <Eyebrow className="text-primary">Who We Serve</Eyebrow>
         <SectionHeading>Built to serve international businesses.</SectionHeading>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          ScaleOut&apos;s client base spans companies headquartered across
+          Scalout&apos;s client base spans companies headquartered across
           Asia-Pacific, Europe, and North America that are building or expanding
           their technology teams in Indonesia.
         </p>
@@ -358,7 +358,7 @@ const steps = [
   {
     num: "02",
     title: "Build Your Team",
-    body: "Talent is sourced, evaluated, and onboarded into ScaleOut's legal employment structure with compliant contracts in place.",
+    body: "Talent is sourced, evaluated, and onboarded into Scalout's legal employment structure with compliant contracts in place.",
   },
   {
     num: "03",
@@ -400,7 +400,7 @@ function HowItWorks() {
 const eorPoints = [
   {
     title: "No sub-contractors",
-    body: "ScaleOut is the single employer of record for your team.",
+    body: "Scalout is the single employer of record for your team.",
   },
   {
     title: "Own infrastructure",
@@ -426,8 +426,8 @@ function EorInfrastructure() {
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             Most employer-of-record providers sub-contract local employment
-            through a network of country-specific partners. ScaleOut built and
-            operates its own EOR system. When you engage ScaleOut, ScaleOut is
+            through a network of country-specific partners. Scalout built and
+            operates its own EOR system. When you engage Scalout, Scalout is
             the employer — fully and directly — with no intermediary in the
             accountability chain.
           </p>
@@ -461,13 +461,13 @@ const services = [
     icon: Code2,
     kicker: "Offshore Development",
     title: "Offshore Development Teams",
-    body: "Build and scale dedicated technology teams in Indonesia, fully employed and managed by ScaleOut.",
+    body: "Build and scale dedicated technology teams in Indonesia, fully employed and managed by Scalout.",
   },
   {
     icon: ShieldCheck,
     kicker: "Employer of Record",
     title: "Employer of Record (EOR)",
-    body: "ScaleOut employs your people through its own in-house EOR infrastructure — full accountability, no third parties.",
+    body: "Scalout employs your people through its own in-house EOR infrastructure — full accountability, no third parties.",
   },
   {
     icon: Building2,
@@ -479,7 +479,7 @@ const services = [
     icon: Users,
     kicker: "Recruitment",
     title: "Recruitment & Workforce Management",
-    body: "End-to-end technology talent sourcing and ongoing workforce management within the ScaleOut structure.",
+    body: "End-to-end technology talent sourcing and ongoing workforce management within the Scalout structure.",
   },
 ];
 
@@ -524,7 +524,7 @@ function Services() {
 
 type Support = "yes" | "partial" | "no";
 
-const comparisonColumns = ["ScaleOut", "Typical EOR Platform", "Staffing Agency"];
+const comparisonColumns = ["Scalout", "Typical EOR Platform", "Staffing Agency"];
 
 const comparisonRows: {
   capability: string;
@@ -562,9 +562,9 @@ function Comparison() {
     <section className="border-y border-border bg-muted/60">
       <div className="container-page py-20">
         <Eyebrow className="text-primary">How We Compare</Eyebrow>
-        <SectionHeading>ScaleOut vs. the alternatives</SectionHeading>
+        <SectionHeading>Scalout vs. the alternatives</SectionHeading>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          A direct comparison of what ScaleOut covers versus typical
+          A direct comparison of what Scalout covers versus typical
           alternatives. Individual providers vary — always verify directly.
         </p>
         <div className="mt-10 overflow-x-auto rounded-xl border border-border">
@@ -628,7 +628,7 @@ function CtaBand() {
           Ready to build your team?
         </h2>
         <p className="mt-4 max-w-xl text-lg leading-relaxed text-primary-foreground/70">
-          Every ScaleOut engagement is custom-scoped to your roles, team size,
+          Every Scalout engagement is custom-scoped to your roles, team size,
           and requirements. Talk to our team to get started.
         </p>
         <Button
@@ -667,7 +667,7 @@ export default function HomePage() {
       <ByTheNumbers />
       <Challenge />
       <Solution />
-      <WhyScaleOut />
+      <WhyScalout />
       <WhoWeServe />
       <HowItWorks />
       <EorInfrastructure />

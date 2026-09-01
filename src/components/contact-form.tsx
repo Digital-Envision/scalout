@@ -21,11 +21,22 @@ const COUNTRIES = [
   "Other",
 ] as const;
 
+const TEAM_SIZES = [
+  "1–5",
+  "6–10",
+  "11–25",
+  "26–50",
+  "More than 50",
+  "Not sure yet",
+] as const;
+
 type FormValues = {
   fullName: string;
   workEmail: string;
   companyName: string;
   country: string;
+  rolesNeeded: string;
+  teamSize: string;
   message: string;
 };
 
@@ -36,22 +47,31 @@ const INITIAL_VALUES: FormValues = {
   workEmail: "",
   companyName: "",
   country: "",
+  rolesNeeded: "",
+  teamSize: "",
   message: "",
 };
 
 const fieldClasses =
   "w-full rounded-md border border-border bg-muted px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring/25 aria-[invalid=true]:border-destructive";
 
-const labelClasses = "block text-sm font-semibold text-foreground";
-
 function RequiredMark() {
   return <span className="text-[#c8102e]"> *</span>;
 }
 
+function Optional() {
+  return (
+    <span className="ml-1 text-xs font-normal text-muted-foreground">
+      (optional)
+    </span>
+  );
+}
+
 /**
  * `default` — the standalone /contact page form.
- * `landing`  — the in-card form on the landing page: fields paired two-up,
- *              inline submit, and no required markers (per the Figma design).
+ * `landing`  — the in-card form on the landing page (Figma node 2010:588):
+ *              fields paired two-up, extra Roles Needed / Team Size inputs,
+ *              inline submit, and no required markers.
  */
 type ContactFormVariant = "default" | "landing";
 
@@ -63,6 +83,10 @@ export function ContactForm({
   submitLabel?: string;
 } = {}) {
   const isLanding = variant === "landing";
+  const labelClasses = cn(
+    "block font-semibold text-foreground",
+    isLanding ? "text-xs leading-4" : "text-sm",
+  );
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -141,7 +165,7 @@ export function ContactForm({
           Thank you — your enquiry is on its way.
         </h2>
         <p className="max-w-prose text-muted-foreground">
-          We have received your details and a member of the ScaleOut team will be
+          We have received your details and a member of the Scalout team will be
           in touch shortly with a tailored response. In the meantime, feel free to
           reach us directly at{" "}
           <a
@@ -169,8 +193,12 @@ export function ContactForm({
   }
 
   return (
-    <form noValidate onSubmit={handleSubmit} className="flex flex-col gap-5">
-      <div className="grid gap-5 sm:grid-cols-2">
+    <form
+      noValidate
+      onSubmit={handleSubmit}
+      className={cn("flex flex-col", isLanding ? "gap-4" : "gap-5")}
+    >
+      <div className={cn("grid sm:grid-cols-2", isLanding ? "gap-4" : "gap-5")}>
         <div className="flex flex-col gap-1.5">
           <label htmlFor="fullName" className={labelClasses}>
             Full Name
@@ -222,12 +250,12 @@ export function ContactForm({
 
       <div
         className={cn(
-          isLanding ? "grid gap-5 sm:grid-cols-2" : "flex flex-col gap-5",
+          isLanding ? "grid gap-4 sm:grid-cols-2" : "flex flex-col gap-5",
         )}
       >
         <div className="flex flex-col gap-1.5">
           <label htmlFor="companyName" className={labelClasses}>
-          Company Name
+          {isLanding ? "Company" : "Company Name"}
           {!isLanding && <RequiredMark />}
         </label>
         <input
@@ -283,12 +311,51 @@ export function ContactForm({
         </div>
       </div>
 
+      {isLanding && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="rolesNeeded" className={labelClasses}>
+              Roles Needed
+              <Optional />
+            </label>
+            <input
+              id="rolesNeeded"
+              name="rolesNeeded"
+              type="text"
+              placeholder="e.g. Customer support, DevOps"
+              value={values.rolesNeeded}
+              onChange={(e) => update("rolesNeeded", e.target.value)}
+              className={fieldClasses}
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="teamSize" className={labelClasses}>
+              Team Size
+              <Optional />
+            </label>
+            <select
+              id="teamSize"
+              name="teamSize"
+              value={values.teamSize}
+              onChange={(e) => update("teamSize", e.target.value)}
+              className={cn(fieldClasses, !values.teamSize && "text-muted-foreground")}
+            >
+              <option value="">Select size</option>
+              {TEAM_SIZES.map((size) => (
+                <option key={size} value={size} className="text-foreground">
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col gap-1.5">
         <label htmlFor="message" className={labelClasses}>
           Message
-          <span className="ml-1 text-xs font-normal text-muted-foreground">
-            (optional)
-          </span>
+          <Optional />
         </label>
         <textarea
           id="message"
@@ -296,12 +363,16 @@ export function ContactForm({
           rows={4}
           placeholder={
             isLanding
-              ? "Tell us about your team requirements..."
+              ? "Tell us more about your requirements..."
               : "Tell us about your team requirements, the roles you are looking to hire, and any considerations."
           }
           value={values.message}
           onChange={(e) => update("message", e.target.value)}
-          className={cn(fieldClasses, "min-h-[100px] resize-y")}
+          className={cn(
+            fieldClasses,
+            "resize-y",
+            isLanding ? "min-h-[82px]" : "min-h-[100px]",
+          )}
         />
       </div>
 
@@ -326,7 +397,11 @@ export function ContactForm({
         {!submitting && <ArrowRight className="size-4" />}
       </Button>
 
-      {!isLanding && (
+      {isLanding ? (
+        <p className="text-xs leading-4 text-muted-foreground">
+          No obligation. We&apos;ll discuss your requirements first.
+        </p>
+      ) : (
         <p className="text-center text-xs text-muted-foreground">
           Fields marked <span className="text-[#c8102e]">*</span> are required.
           Country is required to help us understand which market you are

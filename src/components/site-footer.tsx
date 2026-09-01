@@ -15,7 +15,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     title: "Solutions",
     links: [
       { label: "Services", href: "/service" },
-      { label: "Why ScaleOut", href: "/why" },
+      { label: "Why Scalout", href: "/why" },
     ],
   },
 ];
@@ -80,7 +80,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 ScaleOut. All rights reserved.</p>
+          <p>© 2026 Scalout. All rights reserved.</p>
           <p>Indonesia Operations Hub</p>
         </div>
       </div>

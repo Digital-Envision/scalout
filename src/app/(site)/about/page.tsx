@@ -12,7 +12,7 @@ import {
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "ScaleOut is the result of merging two Indonesia-based businesses — Surya Digital Teknologi and VA For Everyone — into a single platform for international companies that need to build and legally employ technology teams.",
+    "Scalout is the result of merging two Indonesia-based businesses — Surya Digital Teknologi and VA For Everyone — into a single platform for international companies that need to build and legally employ technology teams.",
 };
 
 type Coverage = {
@@ -23,7 +23,7 @@ type Coverage = {
 const coverage: Coverage[] = [
   {
     lead: "Employer of Record via own infrastructure",
-    rest: " — ScaleOut is the legal employer — no third-party provider in the chain.",
+    rest: " — Scalout is the legal employer — no third-party provider in the chain.",
   },
   {
     lead: "Developer teams sourced and managed",
@@ -55,7 +55,7 @@ const founders: Founder[] = [
     name: "Surya Digital Teknologi (SDT)",
     paragraphs: [
       "Surya Digital Teknologi was established in Indonesia with a focus on technology staffing and employment services for clients operating across borders. Its operational foundation was built around providing international companies with compliant, structured access to technology talent in Indonesia — handling the employment, payroll, and HR administration layers that most cross-border hiring arrangements leave unresolved.",
-      "SDT's approach centred on direct accountability: rather than acting as an intermediary that passes employment to a local partner, SDT structured itself as the employer of record for the teams it placed. This model, and the in-house infrastructure built to support it, became a core part of what ScaleOut inherited at the point of merger.",
+      "SDT's approach centred on direct accountability: rather than acting as an intermediary that passes employment to a local partner, SDT structured itself as the employer of record for the teams it placed. This model, and the in-house infrastructure built to support it, became a core part of what Scalout inherited at the point of merger.",
     ],
   },
   {
@@ -63,7 +63,7 @@ const founders: Founder[] = [
     name: "VA For Everyone (VAFE)",
     paragraphs: [
       "VA For Everyone was built in Indonesia around the operational demands of distributed and remote work — providing companies with structured access to remote professionals and the administrative infrastructure to employ and manage them compliantly across jurisdictions.",
-      "VAFE developed its capabilities in cross-border HR administration, distributed team coordination, and the employment compliance layer that underpins sustained remote work relationships. These operational capabilities — particularly around ongoing workforce management and employment administration — contributed directly to ScaleOut's ability to manage technology teams at scale.",
+      "VAFE developed its capabilities in cross-border HR administration, distributed team coordination, and the employment compliance layer that underpins sustained remote work relationships. These operational capabilities — particularly around ongoing workforce management and employment administration — contributed directly to Scalout's ability to manage technology teams at scale.",
     ],
   },
 ];
@@ -83,7 +83,7 @@ const values: Value[] = [
   {
     Icon: Handshake,
     title: "Partnership",
-    body: "We design engagements to grow with your team. As your headcount scales, ScaleOut's model scales with it — no renegotiating from scratch.",
+    body: "We design engagements to grow with your team. As your headcount scales, Scalout's model scales with it — no renegotiating from scratch.",
   },
   {
     Icon: MapPin,
@@ -93,7 +93,7 @@ const values: Value[] = [
   {
     Icon: ShieldCheck,
     title: "Accountability",
-    body: "We do not pass responsibility to partners or subcontractors. When ScaleOut employs your team, ScaleOut is fully accountable for the employment relationship.",
+    body: "We do not pass responsibility to partners or subcontractors. When Scalout employs your team, Scalout is fully accountable for the employment relationship.",
   },
 ];
 
@@ -110,7 +110,7 @@ export default function AboutPage() {
             Built to make cross-border hiring straightforward.
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            ScaleOut is the result of merging two Indonesia-based businesses — Surya Digital
+            Scalout is the result of merging two Indonesia-based businesses — Surya Digital
             Teknologi and VA For Everyone — into a single platform for international companies
             that need to build and legally employ technology teams.
           </p>
@@ -130,12 +130,12 @@ export default function AboutPage() {
               </h2>
               <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
                 Building a technology team across borders should be a strategic advantage, not a
-                legal obstacle course. ScaleOut was created to remove that friction — giving
+                legal obstacle course. Scalout was created to remove that friction — giving
                 international companies a compliant, structured path to hiring without the overhead
                 of entity establishment.
               </p>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Our approach is built on full accountability: ScaleOut employs the people, manages
+                Our approach is built on full accountability: Scalout employs the people, manages
                 the compliance, and operates through its own in-house EOR infrastructure — so there
                 are no third-party hand-offs, no gaps in coverage, and no ambiguity about who is
                 responsible.
@@ -144,7 +144,7 @@ export default function AboutPage() {
 
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.1em] text-muted-foreground">
-                What ScaleOut covers
+                What Scalout covers
               </p>
               <ul className="mt-5 space-y-4">
                 {coverage.map((item) => (
@@ -172,10 +172,10 @@ export default function AboutPage() {
             Our Origin
           </p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground">
-            Where ScaleOut came from.
+            Where Scalout came from.
           </h2>
           <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            ScaleOut was not built from scratch. It was formed through the combination of two
+            Scalout was not built from scratch. It was formed through the combination of two
             Indonesia-based businesses that had each independently developed deep expertise in
             technology staffing, remote employment, and cross-border HR operations. Together, they
             became a single brand with a shared purpose: helping international clients build
@@ -234,7 +234,7 @@ export default function AboutPage() {
         <div className="container-page py-16 text-center">
           <h2 className="text-3xl font-bold text-primary-foreground">Let us tell you more.</h2>
           <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-primary-foreground/70">
-            Our team is happy to walk through how ScaleOut works and whether it is the right fit for
+            Our team is happy to walk through how Scalout works and whether it is the right fit for
             your company.
           </p>
           <div className="mt-8 flex justify-center">

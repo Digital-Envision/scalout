@@ -21,6 +21,8 @@ type Payload = {
   workEmail?: unknown;
   companyName?: unknown;
   country?: unknown;
+  rolesNeeded?: unknown;
+  teamSize?: unknown;
   message?: unknown;
 };
 
@@ -29,11 +31,23 @@ type CleanEnquiry = {
   workEmail: string;
   companyName: string;
   country: string;
+  /** Landing form only — optional. */
+  rolesNeeded: string;
+  /** Landing form only — optional. */
+  teamSize: string;
   message: string;
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MAX = { name: 200, email: 320, company: 200, country: 100, message: 5000 };
+const MAX = {
+  name: 200,
+  email: 320,
+  company: 200,
+  country: 100,
+  roles: 500,
+  teamSize: 100,
+  message: 5000,
+};
 
 function str(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
@@ -48,6 +62,8 @@ function validate(body: Payload): {
     workEmail: str(body.workEmail),
     companyName: str(body.companyName),
     country: str(body.country),
+    rolesNeeded: str(body.rolesNeeded),
+    teamSize: str(body.teamSize),
     message: str(body.message),
   };
   const errors: Record<string, string> = {};
@@ -63,6 +79,10 @@ function validate(body: Payload): {
   if (clean.workEmail.length > MAX.email) errors.workEmail = "Email is too long.";
   if (clean.companyName.length > MAX.company)
     errors.companyName = "Company name is too long.";
+  if (clean.rolesNeeded.length > MAX.roles)
+    errors.rolesNeeded = "Roles list is too long.";
+  if (clean.teamSize.length > MAX.teamSize)
+    errors.teamSize = "Team size is too long.";
   if (clean.message.length > MAX.message)
     errors.message = "Message is too long.";
 
@@ -75,6 +95,8 @@ function renderEmail(e: CleanEnquiry) {
     `Email:   ${e.workEmail}`,
     `Company: ${e.companyName}`,
     `Country: ${e.country}`,
+    `Roles:   ${e.rolesNeeded || "(none)"}`,
+    `Team:    ${e.teamSize || "(none)"}`,
     "",
     "Message:",
     e.message || "(none)",
@@ -83,12 +105,14 @@ function renderEmail(e: CleanEnquiry) {
   const esc = (s: string) =>
     s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const html = `
-    <h2>New enquiry from the ScaleOut website</h2>
+    <h2>New enquiry from the Scalout website</h2>
     <table cellpadding="6" style="border-collapse:collapse;font-family:sans-serif">
       <tr><td><strong>Name</strong></td><td>${esc(e.fullName)}</td></tr>
       <tr><td><strong>Email</strong></td><td>${esc(e.workEmail)}</td></tr>
       <tr><td><strong>Company</strong></td><td>${esc(e.companyName)}</td></tr>
       <tr><td><strong>Country</strong></td><td>${esc(e.country)}</td></tr>
+      <tr><td><strong>Roles needed</strong></td><td>${esc(e.rolesNeeded) || "(none)"}</td></tr>
+      <tr><td><strong>Team size</strong></td><td>${esc(e.teamSize) || "(none)"}</td></tr>
     </table>
     <p><strong>Message</strong></p>
     <p style="white-space:pre-wrap;font-family:sans-serif">${esc(e.message) || "(none)"}</p>
@@ -100,7 +124,7 @@ function renderEmail(e: CleanEnquiry) {
 async function deliver(enquiry: CleanEnquiry): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL ?? "hello@scaleout.sg";
-  const from = process.env.CONTACT_FROM_EMAIL ?? "ScaleOut <onboarding@resend.dev>";
+  const from = process.env.CONTACT_FROM_EMAIL ?? "Scalout <onboarding@resend.dev>";
 
   if (!apiKey) {
     console.warn(

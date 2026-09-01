@@ -13,11 +13,11 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "ScaleOut — Build Your Technology Team, Compliant from Day One",
-    template: "%s · ScaleOut",
+    default: "Scalout — Build Your Technology Team, Compliant from Day One",
+    template: "%s · Scalout",
   },
   description:
-    "ScaleOut helps international companies build and legally employ technology teams in Southeast Asia — fully managed employment, compliant from day one.",
+    "Scalout helps international companies build and legally employ technology teams in Southeast Asia — fully managed employment, compliant from day one.",
 };
 
 /**
