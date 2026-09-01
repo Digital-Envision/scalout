@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const INFO_BLOCKS = [
   {
     label: "Email",
-    value: "hello@scaleout.sg",
+    value: "hello@scalout.com",
   },
   {
     label: "Response Time",

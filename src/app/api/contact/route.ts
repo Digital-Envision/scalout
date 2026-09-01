@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 // Delivers submissions by email via Resend (https://resend.com) using its REST
 // API over fetch — no SDK dependency. Configure via environment variables:
 //   RESEND_API_KEY      required to actually send email
-//   CONTACT_TO_EMAIL    inbox that receives enquiries (default hello@scaleout.sg)
+//   CONTACT_TO_EMAIL    inbox that receives enquiries (default hello@scalout.com)
 //   CONTACT_FROM_EMAIL  verified sender (default onboarding@resend.dev, testing only)
 //
 // If RESEND_API_KEY is unset, the enquiry is validated and logged server-side
@@ -123,7 +123,7 @@ function renderEmail(e: CleanEnquiry) {
 // Returns true if the enquiry was actually delivered to an inbox.
 async function deliver(enquiry: CleanEnquiry): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL ?? "hello@scaleout.sg";
+  const to = process.env.CONTACT_TO_EMAIL ?? "hello@scalout.com";
   const from = process.env.CONTACT_FROM_EMAIL ?? "Scalout <onboarding@resend.dev>";
 
   if (!apiKey) {

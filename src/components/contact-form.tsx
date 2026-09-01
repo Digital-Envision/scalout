@@ -148,7 +148,7 @@ export function ContactForm({
       setSubmitted(true);
     } catch {
       setServerError(
-        "We couldn't reach the server. Please check your connection or email us directly at hello@scaleout.sg.",
+        "We couldn't reach the server. Please check your connection or email us directly at hello@scalout.com.",
       );
     } finally {
       setSubmitting(false);
@@ -169,10 +169,10 @@ export function ContactForm({
           in touch shortly with a tailored response. In the meantime, feel free to
           reach us directly at{" "}
           <a
-            href="mailto:hello@scaleout.sg"
+            href="mailto:hello@scalout.com"
             className="font-medium text-primary underline-offset-4 hover:underline"
           >
-            hello@scaleout.sg
+            hello@scalout.com
           </a>
           .
         </p>

@@ -27,7 +27,7 @@ export function SiteFooter() {
       <div className="container-page py-14">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="max-w-[252px]">
-            <BrandMark textClassName="text-base tracking-[-0.4px]" />
+            <BrandMark height={26} />
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               Helping international companies build and legally employ technology
               teams in Southeast Asia.
@@ -69,10 +69,10 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="mailto:hello@scaleout.sg"
+                  href="mailto:hello@scalout.com"
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  hello@scaleout.sg
+                  hello@scalout.com
                 </a>
               </li>
             </ul>

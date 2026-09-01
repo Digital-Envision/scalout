@@ -18,7 +18,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur-sm">
       <div className="container-page flex h-16 items-center justify-between">
-        <BrandMark />
+        <BrandMark eager />
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-0.5 md:flex">

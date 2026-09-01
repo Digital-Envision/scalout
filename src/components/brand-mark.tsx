@@ -1,32 +1,39 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-// Scalout wordmark: a rounded "SO" badge + "Scalout" text. No image asset —
-// this is reproduced from the Figma design as markup.
+// Scalout wordmark — the supplied artwork in public/assets/brand, trimmed to
+// its glyphs so `height` maps directly onto the rendered lockup.
+const ARTWORK = { width: 733, height: 154 };
+const RATIO = ARTWORK.width / ARTWORK.height;
+
 export function BrandMark({
   className,
-  textClassName,
+  height = 24,
+  invert = false,
+  eager = false,
 }: {
   className?: string;
-  textClassName?: string;
+  /** Rendered height in px; width follows the artwork ratio. */
+  height?: number;
+  /** White letterforms, for dark backgrounds. The swirl stays blue. */
+  invert?: boolean;
+  /** Skip lazy-loading — set for chrome that is above the fold. */
+  eager?: boolean;
 }) {
   return (
     <Link
       href="/"
-      className={cn("flex items-center gap-2.5", className)}
+      className={cn("inline-flex items-center", className)}
       aria-label="Scalout — go to home"
     >
-      <span className="flex size-7 items-center justify-center rounded-[4px] bg-primary text-[10px] font-extrabold tracking-[-0.25px] text-primary-foreground">
-        SO
-      </span>
-      <span
-        className={cn(
-          "text-[17px] font-bold tracking-[-0.425px] text-foreground",
-          textClassName,
-        )}
-      >
-        Scalout
-      </span>
+      <Image
+        src={invert ? "/assets/brand/logo-invert.png" : "/assets/brand/logo.png"}
+        alt=""
+        width={Math.round(height * RATIO)}
+        height={height}
+        loading={eager ? "eager" : "lazy"}
+      />
     </Link>
   );
 }
