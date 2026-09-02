@@ -22,6 +22,17 @@ widths come from the design; files are sized for ~2× on those slots.
 | `case-study-team.jpg` | 2012:1113 | Case study — team group photo (800w) |
 | `contact-team.jpg` | 2010:650 | Closing CTA — team member on a client call (1000w) |
 
+## Supplied by the client (not from Figma)
+
+| File | Source | Used in |
+|---|---|---|
+| `office-floor.jpg` | `IMG_8649.JPG`, iPhone panorama, 2022-07-29 | /service — "On the ground" band (2400×1142) |
+
+Downscaled from 8046×3828 and re-encoded at quality 78 with **all EXIF dropped**
+(the original carried GPS coordinates). The unprocessed `IMG_8649.JPG` must not
+be committed: at 10.9 MB inside `public/` it would be served publicly, GPS and
+all.
+
 ## Client logos (PNG, alpha preserved — do not re-encode as JPEG)
 
 Added with the `2012:*` revision, which replaced the placeholder logo chips with
