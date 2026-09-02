@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
   Building2,
   Check,
@@ -8,6 +9,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import {
+  EmploymentChainPlate,
+  EngagementSpecPlate,
+  ProcessPlate,
+  WorkspacePlanPlate,
+} from "@/app/(site)/_components/service-plates";
 import { Cta, CtaBand, PageHero, TextLink } from "@/components/site-kit";
 import { CONTACT_HREF } from "@/lib/nav";
 
@@ -22,7 +29,8 @@ type Service = {
   short: string;
   title: string;
   icon: LucideIcon;
-  illustration: string;
+  /** Side-rail diagram. Drawn in the data-texture language, not an asset. */
+  plate: React.ReactNode;
   paragraphs: string[];
   inclusions: string[];
 };
@@ -33,7 +41,7 @@ const services: Service[] = [
     short: "Offshore development teams",
     title: "Offshore development teams",
     icon: Code2,
-    illustration: "/assets/service/offshore-teams.svg",
+    plate: <EngagementSpecPlate />,
     paragraphs: [
       "Scalout builds and manages dedicated technology teams in Indonesia for companies headquartered in Singapore and internationally. From sourcing engineers to managing compliance, we handle the full employment cycle so your offshore team operates as an extension of your business.",
       "Each engagement is scoped to your technical requirements: stack, seniority, and team size, with no minimum headcount and no lock-in beyond what your contract specifies.",
@@ -52,7 +60,7 @@ const services: Service[] = [
     short: "Employer of record",
     title: "Employer of record",
     icon: ShieldCheck,
-    illustration: "/assets/service/employer-of-record.svg",
+    plate: <EmploymentChainPlate />,
     paragraphs: [
       "Our employer-of-record service runs on its own in-house infrastructure, not through a third-party platform or partner network. Scalout is the legal employer of record for your team members, carrying all employer obligations under applicable local law.",
       "That structure means your company has no direct employment exposure in Indonesia. Scalout handles contracts, statutory compliance, payroll, and ongoing HR administration under a single commercial agreement with you.",
@@ -71,7 +79,7 @@ const services: Service[] = [
     short: "Office placement",
     title: "Office placement",
     icon: Building2,
-    illustration: "/assets/service/office-placement.svg",
+    plate: <WorkspacePlanPlate />,
     paragraphs: [
       "For teams that require a physical presence in Indonesia, Scalout provides access to ready-to-use workspace as part of the engagement. Office placement is coordinated alongside EOR and payroll, so your team has somewhere to work from the start.",
       "The service is available as a standalone arrangement or bundled with our development team and EOR services, depending on what your team needs.",
@@ -90,7 +98,7 @@ const services: Service[] = [
     short: "Recruitment",
     title: "Recruitment and workforce management",
     icon: Users,
-    illustration: "/assets/service/recruitment-workforce.svg",
+    plate: <ProcessPlate />,
     paragraphs: [
       "Scalout runs a structured recruitment process focused exclusively on technology roles: software engineers, product managers, QA specialists, data practitioners, and related positions. We manage the process from brief through offer, then stay involved as the employment relationship continues.",
       "Workforce management covers the ongoing HR and operational layer: headcount planning, probation oversight, performance process support, and workforce changes, all within the Scalout employment structure.",
@@ -135,16 +143,7 @@ function ServiceBlock({ service }: { service: Service }) {
         </div>
 
         <div>
-          <div className="texture-dither flex h-[168px] items-center justify-center rounded-[4px] border border-rule bg-accent">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={service.illustration}
-              alt=""
-              width={220}
-              height={140}
-              className="h-[140px] w-[220px] opacity-90"
-            />
-          </div>
+          {service.plate}
           <p className="mt-7 text-[13px] font-bold text-foreground">
             What is included
           </p>
@@ -218,6 +217,30 @@ export default function ServicePage() {
               <ServiceBlock key={service.id} service={service} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-rule bg-muted">
+        <div className="container-page py-20">
+          <figure>
+            <div className="relative h-[280px] overflow-hidden rounded-[4px] border border-rule sm:h-[380px] lg:h-[440px]">
+              <Image
+                src="/assets/landing/office-floor.jpg"
+                alt="The Scalout engineering floor in Indonesia, with teams working at shared desk runs"
+                fill
+                sizes="(min-width: 1104px) 1056px, 100vw"
+                className="object-cover object-[50%_62%]"
+              />
+            </div>
+            <figcaption className="mt-6 grid gap-4 sm:grid-cols-[minmax(0,11rem)_minmax(0,1fr)] sm:gap-8">
+              <p className="data-label text-primary">On the ground</p>
+              <p className="max-w-[62ch] text-[15px] leading-relaxed text-muted-foreground">
+                Every service on this page runs from Indonesia, where our
+                operational roots are. Teams are recruited here, employed here
+                under Scalout, and work from space we provide.
+              </p>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
