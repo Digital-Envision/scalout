@@ -9,11 +9,13 @@ import {
   SectionHead,
   TextLink,
 } from "@/components/site-kit";
+import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
     "Scalout is the result of merging two Indonesia-based businesses, Surya Digital Teknologi and VA For Everyone, into a single platform for international companies building technology teams.",
+  ...pageSeo("/about"),
 };
 
 const coverage = [

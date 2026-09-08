@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
-import { NAV_ITEMS } from "@/lib/nav";
+import { SITE_ROUTES } from "@/lib/routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return NAV_ITEMS.map((item) => ({
-    url: new URL(item.href, SITE_URL).toString(),
-    lastModified: new Date(),
+  return SITE_ROUTES.map((route) => ({
+    url: new URL(route.href, SITE_URL).toString(),
+    lastModified: route.lastModified,
     changeFrequency: "monthly",
-    priority: item.href === "/" ? 1 : 0.8,
+    priority: route.priority,
   }));
 }

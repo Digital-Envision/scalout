@@ -3,11 +3,13 @@ import Image from "next/image";
 
 import { ContactForm } from "@/components/contact-form";
 import { PageHero } from "@/components/site-kit";
+import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Tell us about your company and what you are looking to build. Every Scalout engagement is scoped to your requirements, so there is no fixed pricing.",
+  ...pageSeo("/contact"),
 };
 
 const INFO_BLOCKS = [

@@ -18,11 +18,15 @@ import {
 } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { LandingFaq, type LandingFaqItem } from "../_components/landing-faq";
+import { JsonLd } from "@/components/json-ld";
+import { faqPageNode, graph } from "@/lib/schema";
+import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Build Your Offshore Team in Indonesia",
   description:
     "Build a dedicated team with local recruitment, employment, workspace, and operational support — all through one partner.",
+  ...pageSeo("/offshore-team-indonesia"),
 };
 
 /** Figma content column: 1023px inside a 24px gutter (node 2010:2). */
@@ -819,6 +823,9 @@ const FAQS: LandingFaqItem[] = [
 function Faq() {
   return (
     <section className="bg-white px-6 py-20">
+      {/* Emitted from the array below, so the markup and the visible answers
+          cannot drift apart. */}
+      <JsonLd data={graph(faqPageNode("/offshore-team-indonesia", FAQS))} />
       <div className={WIDE}>
         <h2 className="text-2xl font-bold leading-8 tracking-[-0.6px] text-foreground">
           Frequently Asked Questions

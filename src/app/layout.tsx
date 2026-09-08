@@ -2,7 +2,14 @@ import type { Metadata } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { SITE_URL } from "@/lib/site";
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_URL,
+} from "@/lib/site";
+import { graph, organizationNode, webSiteNode } from "@/lib/schema";
+import { JsonLd } from "@/components/json-ld";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -20,12 +27,25 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Scalout: Build Your Technology Team, Compliant from Day One",
-    template: "%s · Scalout",
+    default: `${SITE_NAME}: ${SITE_TAGLINE}`,
+    template: `%s · ${SITE_NAME}`,
   },
-  description:
-    "Scalout helps international companies build and legally employ technology teams in Southeast Asia. Fully managed employment, compliant from day one.",
+  description: SITE_DESCRIPTION,
+  // Shared to LinkedIn, WhatsApp, Slack and mail clients far more often than
+  // it is found in search. `title`, `description` and `url` are deliberately
+  // absent: Next fills each from the page's own resolved title, description
+  // and canonical, so every route gets its own card. Pinning them here made
+  // all seven share the homepage's. Every page names the card through
+  // `pageSeo`; anything that doesn't (the 404) picks it up from the
+  // `opengraph-image.tsx` file convention.
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "en_US",
+  },
+  twitter: { card: "summary_large_image" },
 };
+
 
 /**
  * Root layout — owns <html>/<body>, fonts and global metadata only.
@@ -47,6 +67,9 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
+        {/* The entity behind the site, and the site itself. Every other
+            node on every other page references these by `@id`. */}
+        <JsonLd data={graph(organizationNode, webSiteNode)} />
         {children}
       </body>
     </html>

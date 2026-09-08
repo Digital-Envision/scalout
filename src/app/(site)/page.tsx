@@ -19,11 +19,16 @@ import {
   TextLink,
 } from "@/components/site-kit";
 import { FaqAccordion } from "@/app/_components/faq-accordion";
+import { FAQS } from "@/app/_components/faq-data";
+import { JsonLd } from "@/components/json-ld";
+import { faqPageNode, graph } from "@/lib/schema";
+import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Build Your Technology Team, Compliant from Day One",
   description:
     "Scalout gives international companies a fully managed, legally compliant path to building technology teams in Indonesia, without establishing a local entity.",
+  ...pageSeo("/"),
 };
 
 /* ---------- Hero ---------- */
@@ -584,6 +589,9 @@ function Comparison() {
 function Faq() {
   return (
     <section className="bg-background">
+      {/* Emitted from the array the accordion renders, so the markup and the
+          visible answers cannot drift apart. */}
+      <JsonLd data={graph(faqPageNode("/", FAQS))} />
       <div className="container-page max-w-3xl py-20">
         <SectionHead title="Common questions." />
         <FaqAccordion />

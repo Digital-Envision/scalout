@@ -12,11 +12,15 @@ import {
 } from "lucide-react";
 
 import { Cta, CtaBand, PageHero, SectionHead } from "@/components/site-kit";
+import { pageSeo } from "@/lib/seo";
+import { graph, roleListNode, webPageNode } from "@/lib/schema";
+import { JsonLd } from "@/components/json-ld";
 
 export const metadata: Metadata = {
   title: "Role Availability",
   description:
     "Scalout sources, employs, and manages technology professionals across a range of disciplines. These are the categories we recruit for, not a real-time staffing board.",
+  ...pageSeo("/role"),
 };
 
 type Role = {
@@ -94,6 +98,11 @@ const roles: Role[] = [
   },
 ];
 
+const roleList = roleListNode(
+  "Technology disciplines Scalout recruits for",
+  roles,
+);
+
 function RoleCard({ role }: { role: Role }) {
   const { Icon } = role;
   return (
@@ -131,6 +140,18 @@ function RoleCard({ role }: { role: Role }) {
 export default function RolePage() {
   return (
     <>
+      {/* An ItemList, not JobPosting — see `roleListNode`. These are the
+          disciplines we recruit for, not open vacancies. */}
+      <JsonLd
+        data={graph(
+          webPageNode({
+            path: "/role",
+            name: "Role Availability",
+            mainEntityId: roleList["@id"],
+          }),
+          roleList,
+        )}
+      />
       <PageHero
         label="Role availability"
         title="The roles we hire for."
