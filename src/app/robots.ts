@@ -1,7 +1,18 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/site";
+import { IS_CANONICAL_ORIGIN, SITE_URL } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
+  /*
+   * Preview deployments and local builds run on a fallback origin. Serving
+   * them a blanket disallow is what makes that fallback safe: the whole point
+   * of the guard in `site.ts` is that the wrong origin must never reach an
+   * index, and Vercel's own noindex header is not something to rely on
+   * silently.
+   */
+  if (!IS_CANONICAL_ORIGIN) {
+    return { rules: { userAgent: "*", disallow: "/" } };
+  }
+
   return {
     /*
      * AI crawlers are allowed, deliberately.

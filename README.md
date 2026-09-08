@@ -35,6 +35,16 @@ and an unset value would silently prerender `robots.txt` and `sitemap.xml` with
 NEXT_PUBLIC_SITE_URL=https://scalout.com npm run build
 ```
 
+Set it in every deploy environment: Vercel project settings, and `envs` in
+[`.do/app.yaml`](.do/app.yaml) at the default `RUN_AND_BUILD_TIME` scope — a
+`RUN_TIME` scope silently does nothing for a `NEXT_PUBLIC_` variable.
+
+Vercel **preview** deployments are the one exception: they fall back to their
+own `VERCEL_URL`, so a preview builds with no configuration. That fallback is
+only safe because a build on any non-declared origin also serves a `robots.txt`
+that disallows everything — see [`src/app/robots.ts`](src/app/robots.ts). A
+production build still has to declare its origin.
+
 ## Contact form
 
 The contact form posts to a route handler at [`/api/contact`](src/app/api/contact/route.ts),

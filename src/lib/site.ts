@@ -1,4 +1,17 @@
-const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
+/*
+ * Vercel exposes these at build time. VERCEL_URL is the deployment-specific
+ * host, with no protocol. Neither is a NEXT_PUBLIC_ variable, which is fine —
+ * this module is imported only by server code (layout, sitemap, robots,
+ * opengraph-image, and the schema/seo helpers those pull in).
+ */
+const vercelEnv = process.env.VERCEL_ENV;
+const vercelUrl = process.env.VERCEL_URL;
+const previewUrl =
+  vercelEnv && vercelEnv !== "production" && vercelUrl
+    ? `https://${vercelUrl}`
+    : undefined;
 
 /**
  * A `NEXT_PUBLIC_` variable is inlined during `next build`, so an unset value
@@ -6,15 +19,27 @@ const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL;
  * prerendered `robots.txt` and `sitemap.xml` and hands them to Google on a
  * green build. Fail the build instead: this is the one misconfiguration whose
  * damage lands outside the app.
+ *
+ * A Vercel preview is the exception, not a loophole. It has a real origin of
+ * its own, nobody has to configure it per branch, and `robots.ts` serves a
+ * blanket disallow whenever we are on a fallback origin — so a preview cannot
+ * be indexed under the wrong host. A production deploy still has to say what
+ * it is.
  */
-if (!configuredUrl && process.env.NODE_ENV === "production") {
+if (!configuredUrl && !previewUrl && process.env.NODE_ENV === "production") {
   throw new Error(
     "NEXT_PUBLIC_SITE_URL must be set for production builds. Without it the " +
       "sitemap and robots.txt are prerendered with localhost URLs.",
   );
 }
 
-export const SITE_URL = configuredUrl ?? "http://localhost:3000";
+export const SITE_URL = configuredUrl ?? previewUrl ?? "http://localhost:3000";
+
+/**
+ * Whether `SITE_URL` is the site's real, declared origin rather than a preview
+ * or localhost fallback. `robots.ts` keys indexing off this.
+ */
+export const IS_CANONICAL_ORIGIN = Boolean(configuredUrl);
 
 export const SITE_NAME = "Scalout";
 

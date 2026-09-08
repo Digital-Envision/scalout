@@ -25,5 +25,11 @@ services:
         value: "8080"
       - key: NODE_ENV
         value: production
+      # Left at App Platform's default RUN_AND_BUILD_TIME scope on purpose: a
+      # NEXT_PUBLIC_ variable is inlined during `next build`, so a RUN_TIME
+      # scope silently does nothing and the build fails. Set it to the real
+      # origin — the build refuses to produce a sitemap without it.
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://scalout.com
     health_check:
       http_path: /
