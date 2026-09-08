@@ -17,11 +17,13 @@ import {
 } from "@/app/(site)/_components/service-plates";
 import { Cta, CtaBand, PageHero, TextLink } from "@/components/site-kit";
 import { CONTACT_HREF } from "@/lib/nav";
+import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
     "Everything international companies need to build and legally employ technology teams: sourcing engineers, providing workspace, and managing employment compliance throughout.",
+  ...pageSeo("/service"),
 };
 
 type Service = {

@@ -12,11 +12,13 @@ import {
 } from "lucide-react";
 
 import { Cta, CtaBand, PageHero, SectionHead } from "@/components/site-kit";
+import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Role Availability",
   description:
     "Scalout sources, employs, and manages technology professionals across a range of disciplines. These are the categories we recruit for, not a real-time staffing board.",
+  ...pageSeo("/role"),
 };
 
 type Role = {

@@ -26,6 +26,15 @@ npm run build    # production build (Turbopack)
 npm start        # serve the production build
 ```
 
+`npm run build` requires `NEXT_PUBLIC_SITE_URL` and fails without it. That is
+deliberate: it is a `NEXT_PUBLIC_` variable, so it is inlined during the build,
+and an unset value would silently prerender `robots.txt` and `sitemap.xml` with
+`http://localhost:3000` URLs on an otherwise green build.
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://scalout.com npm run build
+```
+
 ## Contact form
 
 The contact form posts to a route handler at [`/api/contact`](src/app/api/contact/route.ts),
@@ -43,6 +52,34 @@ cp .env.example .env.local   # then fill in RESEND_API_KEY
 
 To use a different backend (SMTP/Nodemailer, SendGrid, a CRM webhook, a DB insert),
 swap the `deliver()` function in the route handler — the form contract is unchanged.
+
+## SEO
+
+Metadata is code, and all of it is prerendered — a wrong value stays wrong until
+the next deploy.
+
+| Concern | Where |
+|---|---|
+| Title template, description, Open Graph and Twitter defaults | [`src/app/layout.tsx`](src/app/layout.tsx) |
+| `Organization` structured data | [`src/app/layout.tsx`](src/app/layout.tsx) |
+| Canonical + `og:url` + share card per page | [`src/lib/seo.ts`](src/lib/seo.ts) → `pageSeo("/path")` |
+| Routes, nav labels and sitemap dates | [`src/lib/routes.ts`](src/lib/routes.ts) |
+| `sitemap.xml` / `robots.txt` | [`src/app/sitemap.ts`](src/app/sitemap.ts), [`src/app/robots.ts`](src/app/robots.ts) |
+| 1200×630 share card | [`src/app/opengraph-image.tsx`](src/app/opengraph-image.tsx) |
+| `FAQPage` structured data | [`src/components/json-ld.tsx`](src/components/json-ld.tsx) |
+
+Two things to know when adding a page:
+
+- Add it to `SITE_ROUTES` and spread `pageSeo("/its-path")` into its `metadata`.
+  The route table is the single source for both the nav and the sitemap, so a
+  page cannot end up in one and not the other.
+- `lastModified` in the route table is a **content** date, maintained by hand.
+  Bump it when the copy changes, not when the styling does — crawlers discount
+  a `lastmod` that moves on every deploy.
+
+Still open: `SITE_PROFILES` in [`src/lib/site.ts`](src/lib/site.ts) is empty. Add
+the LinkedIn company page URL there and it is emitted as schema.org `sameAs`,
+which is what ties the site to the entity Google already knows about.
 
 ## Deployment
 

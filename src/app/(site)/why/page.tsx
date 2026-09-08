@@ -7,11 +7,13 @@ import {
   PageHero,
   SectionHead,
 } from "@/components/site-kit";
+import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Why Scalout",
   description:
     "Companies hiring technology talent in Indonesia usually face two paths: establish a local entity, or engage a staffing agency. Scalout is built to be neither.",
+  ...pageSeo("/why"),
 };
 
 const differences = [
