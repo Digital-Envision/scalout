@@ -20,15 +20,32 @@ export const SITE_NAME = "Scalout";
 
 export const SITE_TAGLINE = "Build Your Technology Team, Compliant from Day One";
 
+/**
+ * The canonical one-liner. Reuse it **verbatim** everywhere the company is
+ * described: the root `metadata.description`, the `Organization` and `WebSite`
+ * schema nodes, the LinkedIn company page, the Google Business Profile, and
+ * any directory listing.
+ *
+ * This is not pedantry. Answer engines resolve a brand by corroborating it
+ * across independent sources, and "Scalout" sits close enough to ordinary
+ * words that differing descriptions invite an engine to hedge or to conflate
+ * us with something else. Same wording, same legal name, same address, every
+ * time.
+ */
 export const SITE_DESCRIPTION =
   "Scalout helps international companies build and legally employ technology teams in Southeast Asia. Fully managed employment, compliant from day one.";
 
 export const CONTACT_EMAIL = "hello@scalout.com";
 
 /**
- * Public profiles that verifiably belong to Scalout, used as schema.org
- * `sameAs` to tie the site to the entity Google already knows about. Left
- * empty until the real URLs are confirmed — a wrong `sameAs` is worse than
- * none, because it asserts an identity that isn't ours.
+ * Public profiles that verifiably belong to Scalout, emitted as schema.org
+ * `sameAs`. This is the half of brand corroboration that is explicit rather
+ * than inferred: it names the off-site profiles carrying the same description
+ * and asserts they are the same entity.
+ *
+ * Add the LinkedIn company page, the Google Business Profile, and any
+ * directory listing you control. Left empty until the real URLs are
+ * confirmed — a wrong `sameAs` is worse than none, because it asserts an
+ * identity that isn't ours.
  */
 export const SITE_PROFILES: string[] = [];

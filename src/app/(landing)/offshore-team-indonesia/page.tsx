@@ -18,7 +18,8 @@ import {
 } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { LandingFaq, type LandingFaqItem } from "../_components/landing-faq";
-import { JsonLd, faqPageSchema } from "@/components/json-ld";
+import { JsonLd } from "@/components/json-ld";
+import { faqPageNode, graph } from "@/lib/schema";
 import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -824,7 +825,7 @@ function Faq() {
     <section className="bg-white px-6 py-20">
       {/* Emitted from the array below, so the markup and the visible answers
           cannot drift apart. */}
-      <JsonLd data={faqPageSchema(FAQS)} />
+      <JsonLd data={graph(faqPageNode("/offshore-team-indonesia", FAQS))} />
       <div className={WIDE}>
         <h2 className="text-2xl font-bold leading-8 tracking-[-0.6px] text-foreground">
           Frequently Asked Questions

@@ -20,7 +20,8 @@ import {
 } from "@/components/site-kit";
 import { FaqAccordion } from "@/app/_components/faq-accordion";
 import { FAQS } from "@/app/_components/faq-data";
-import { JsonLd, faqPageSchema } from "@/components/json-ld";
+import { JsonLd } from "@/components/json-ld";
+import { faqPageNode, graph } from "@/lib/schema";
 import { pageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -590,7 +591,7 @@ function Faq() {
     <section className="bg-background">
       {/* Emitted from the array the accordion renders, so the markup and the
           visible answers cannot drift apart. */}
-      <JsonLd data={faqPageSchema(FAQS)} />
+      <JsonLd data={graph(faqPageNode("/", FAQS))} />
       <div className="container-page max-w-3xl py-20">
         <SectionHead title="Common questions." />
         <FaqAccordion />

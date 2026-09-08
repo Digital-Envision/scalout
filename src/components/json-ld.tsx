@@ -2,6 +2,8 @@
  * Structured data for crawlers. Rendered inline rather than through
  * `<Script>` so it is present in the prerendered HTML, which is what Google's
  * parser reads.
+ *
+ * The nodes themselves live in `src/lib/schema.ts`.
  */
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
@@ -15,19 +17,4 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
       }}
     />
   );
-}
-
-type FaqEntry = { question: string; answer: string };
-
-/** Google requires the answers to be visible on the page — they are. */
-export function faqPageSchema(items: readonly FaqEntry[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: items.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: { "@type": "Answer", text: item.answer },
-    })),
-  };
 }

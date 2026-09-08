@@ -3,13 +3,12 @@ import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import {
-  CONTACT_EMAIL,
   SITE_DESCRIPTION,
   SITE_NAME,
-  SITE_PROFILES,
   SITE_TAGLINE,
   SITE_URL,
 } from "@/lib/site";
+import { graph, organizationNode, webSiteNode } from "@/lib/schema";
 import { JsonLd } from "@/components/json-ld";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -47,39 +46,6 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-/**
- * The entity behind the site. Scalout is a merger of two named Indonesian
- * businesses, and saying so here is what lets Google resolve the brand name
- * rather than guess at it.
- */
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": `${SITE_URL}/#organization`,
-  name: SITE_NAME,
-  legalName: SITE_NAME,
-  url: SITE_URL,
-  logo: `${SITE_URL}/assets/brand/logo.png`,
-  description: SITE_DESCRIPTION,
-  email: CONTACT_EMAIL,
-  foundingLocation: {
-    "@type": "Place",
-    address: { "@type": "PostalAddress", addressCountry: "ID" },
-  },
-  address: { "@type": "PostalAddress", addressCountry: "ID" },
-  areaServed: [
-    { "@type": "Place", name: "Asia-Pacific" },
-    { "@type": "Place", name: "Europe" },
-    { "@type": "Place", name: "North America" },
-  ],
-  knowsAbout: [
-    "Employer of record",
-    "Technology recruitment in Indonesia",
-    "Offshore engineering teams",
-    "Indonesian employment compliance",
-  ],
-  ...(SITE_PROFILES.length > 0 ? { sameAs: SITE_PROFILES } : {}),
-};
 
 /**
  * Root layout — owns <html>/<body>, fonts and global metadata only.
@@ -101,7 +67,9 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
-        <JsonLd data={organizationSchema} />
+        {/* The entity behind the site, and the site itself. Every other
+            node on every other page references these by `@id`. */}
+        <JsonLd data={graph(organizationNode, webSiteNode)} />
         {children}
       </body>
     </html>
