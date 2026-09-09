@@ -10,6 +10,13 @@ import type { CleanEnquiry } from "./contact-enquiry";
 
 const SMTP2GO_ENDPOINT = "https://api.smtp2go.com/v3/email/send";
 
+/**
+ * `fetch` has no default timeout, so without this a hung SMTP2GO connection
+ * holds the visitor's request open until the platform's own timeout kills it —
+ * long enough that they give up or submit again.
+ */
+const SMTP2GO_TIMEOUT_MS = 10_000;
+
 export function renderEmail(e: CleanEnquiry) {
   const lines = [
     `Name:    ${e.fullName}`,
@@ -68,6 +75,7 @@ export async function sendEnquiryEmail(
   const { text, html } = renderEmail(enquiry);
   const res = await fetch(SMTP2GO_ENDPOINT, {
     method: "POST",
+    signal: AbortSignal.timeout(SMTP2GO_TIMEOUT_MS),
     headers: {
       "X-Smtp2go-Api-Key": apiKey,
       "Content-Type": "application/json",

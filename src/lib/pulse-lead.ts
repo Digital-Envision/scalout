@@ -1,4 +1,4 @@
-import { createHmac, randomUUID } from "node:crypto";
+import { createHmac } from "node:crypto";
 import { splitName, type CleanEnquiry } from "./contact-enquiry";
 
 /**
@@ -12,8 +12,18 @@ import { splitName, type CleanEnquiry } from "./contact-enquiry";
  *
  * `leadId` is Pulse's idempotency key: it is stored as deals.external_lead_id
  * under a unique index, so a retry of the same submission resolves to the
- * original deal instead of creating a second one.
+ * original deal instead of creating a second one. It comes from the form and
+ * survives a retry, which matters because the visitor is asked to retry
+ * whenever the mail fails — and by then the deal may already exist.
  */
+
+/**
+ * Deliberately shorter than the mail timeout. The route waits on both before it
+ * answers, so an unresponsive Pulse would otherwise hold up a visitor whose
+ * email has already been delivered — the one thing the "never block on Pulse"
+ * rule exists to prevent. Losing the sync is recoverable; a stalled form is not.
+ */
+const PULSE_TIMEOUT_MS = 5_000;
 
 type PulseLeadResult = { received: boolean; processed: boolean; dealId: string };
 
@@ -51,7 +61,7 @@ export async function syncLeadToPulse(
 
   const { firstName, lastName } = splitName(enquiry.fullName);
   const body = JSON.stringify({
-    leadId: randomUUID(),
+    leadId: enquiry.leadId,
     firstName,
     lastName,
     email: enquiry.workEmail,
@@ -63,6 +73,7 @@ export async function syncLeadToPulse(
 
   const res = await fetch(`${apiUrl.replace(/\/$/, "")}/public/leads`, {
     method: "POST",
+    signal: AbortSignal.timeout(PULSE_TIMEOUT_MS),
     headers: {
       "Content-Type": "application/json",
       "X-Pulse-Signature": signature,
