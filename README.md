@@ -48,20 +48,48 @@ production build still has to declare its origin.
 ## Contact form
 
 The contact form posts to a route handler at [`/api/contact`](src/app/api/contact/route.ts),
-which validates server-side and emails the enquiry via [Resend](https://resend.com)
-(REST API, no SDK dependency). Configure with env vars (see [`.env.example`](.env.example)):
+which validates server-side ([`contact-enquiry.ts`](src/lib/contact-enquiry.ts)) and
+then does two things in parallel: emails the enquiry via
+[SMTP2GO](https://smtp2go.com) ([`contact-email.ts`](src/lib/contact-email.ts)) and
+mirrors it into the Pulse CRM as a Deal ([`pulse-lead.ts`](src/lib/pulse-lead.ts)).
+Both use the REST API over `fetch`, so there is no SDK dependency.
+
+Only the email decides what the visitor sees. Once an enquiry is in the sales
+inbox it is not lost, so a failed CRM sync is logged loudly
+(`[contact] Pulse sync failed`) and the visitor still gets a confirmation —
+asking them to submit again would risk a duplicate email.
+
+Configure with env vars (see [`.env.example`](.env.example)):
 
 ```bash
-cp .env.example .env.local   # then fill in RESEND_API_KEY
+cp .env.example .env.local
 ```
 
-- `RESEND_API_KEY` — without it, submissions are still validated and accepted
+- `SMTP2GO_API_KEY` — without it, submissions are still validated and accepted
   (logged server-side, `delivered: false`) so the form works before email is set up.
 - `CONTACT_TO_EMAIL` — inbox that receives enquiries.
-- `CONTACT_FROM_EMAIL` — a sender on a domain verified in Resend (for production).
+- `CONTACT_FROM_EMAIL` — a sender on a domain verified in SMTP2GO. SMTP2GO returns
+  HTTP 200 with `succeeded: 0` for an unverified sender, which the route treats as
+  a failure rather than a silent drop.
+- `PULSE_API_URL` / `PULSE_SYNC_SECRET` — Pulse origin and the shared HMAC secret.
+  With either unset the CRM sync is skipped and the form still works.
 
-To use a different backend (SMTP/Nodemailer, SendGrid, a CRM webhook, a DB insert),
-swap the `deliver()` function in the route handler — the form contract is unchanged.
+### The Pulse contract
+
+`syncLeadToPulse()` POSTs to `{PULSE_API_URL}/public/leads`, signing the raw JSON
+body with HMAC-SHA256 under `PULSE_SYNC_SECRET` in an `X-Pulse-Signature` header.
+Pulse recomputes the HMAC over the bytes it received, so the signed string and the
+sent body must be identical — build the JSON once and reuse it.
+
+Each request carries a fresh `leadId` (UUID). Pulse stores it as
+`deals.external_lead_id` under a unique index, so a retried submission resolves to
+the existing deal rather than creating a second one.
+
+The `source` slug picks the deal's title and pipeline in Pulse and must match
+`SCALOUT_LEAD_PAGES` in the Pulse backend's `create-public-lead.dto.ts`; Pulse
+rejects anything it does not recognise. The values live in `ENQUIRY_SOURCES`
+([`contact-enquiry.ts`](src/lib/contact-enquiry.ts)) — change them in both repos
+together, Pulse first.
 
 ## SEO
 

@@ -108,7 +108,7 @@ export function ContactForm({
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  // /api/contact answers ok:true with delivered:false when RESEND_API_KEY is
+  // /api/contact answers ok:true with delivered:false when SMTP2GO_API_KEY is
   // unset: the enquiry is validated and logged, but no inbox received it. The
   // confirmation must not claim otherwise.
   const [delivered, setDelivered] = useState(true);
@@ -148,7 +148,14 @@ export function ContactForm({
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          // Tells Pulse which form this came from, so the deal is titled and
+          // routed correctly. Keep in sync with ENQUIRY_SOURCES.
+          source: isLanding
+            ? "scalout-offshore-team-indonesia"
+            : "scalout-contact",
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
