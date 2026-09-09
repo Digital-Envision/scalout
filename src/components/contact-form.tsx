@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -108,12 +108,16 @@ export function ContactForm({
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  // /api/contact answers ok:true with delivered:false when RESEND_API_KEY is
+  // /api/contact answers ok:true with delivered:false when SMTP2GO_API_KEY is
   // unset: the enquiry is validated and logged, but no inbox received it. The
   // confirmation must not claim otherwise.
   const [delivered, setDelivered] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  // Identifies this submission, not this form. Held across retries so that a
+  // resend after a mail failure resolves to the deal Pulse may already have
+  // created, and cleared on success so the next enquiry is a new one.
+  const leadIdRef = useRef<string | null>(null);
 
   function update<K extends keyof FormValues>(key: K, value: string) {
     setValues((prev) => ({ ...prev, [key]: value }));
@@ -144,11 +148,20 @@ export function ContactForm({
     if (Object.keys(nextErrors).length > 0) return;
 
     setSubmitting(true);
+    leadIdRef.current ??= crypto.randomUUID();
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          leadId: leadIdRef.current,
+          // Tells Pulse which form this came from, so the deal is titled and
+          // routed correctly. Keep in sync with ENQUIRY_SOURCES.
+          source: isLanding
+            ? "scalout-offshore-team-indonesia"
+            : "scalout-contact",
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
@@ -170,6 +183,7 @@ export function ContactForm({
 
       setDelivered(data.delivered !== false);
       setSubmitted(true);
+      leadIdRef.current = null;
     } catch {
       setServerError(
         "We couldn't reach the server. Please check your connection or email us directly at hello@scalout.com.",
