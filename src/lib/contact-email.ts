@@ -55,10 +55,13 @@ export async function sendEnquiryEmail(
   const sender = process.env.CONTACT_FROM_EMAIL ?? "Scalout <hello@scalout.com>";
 
   if (!apiKey) {
-    console.warn(
-      "[contact] SMTP2GO_API_KEY not set — enquiry logged but not emailed:",
-      enquiry,
-    );
+    // Deliberately metadata only. An unconfigured key is a deployment fault, and
+    // the answer to it is to configure the key — not to accumulate names, work
+    // emails and message bodies in stderr where nobody is watching for them.
+    console.warn("[contact] SMTP2GO_API_KEY not set — enquiry accepted but not emailed", {
+      company: enquiry.companyName,
+      source: enquiry.source,
+    });
     return false;
   }
 

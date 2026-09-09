@@ -30,12 +30,16 @@ export async function POST(request: Request) {
     syncLeadToPulse(clean),
   ]);
 
+  // Enough to find the enquiry and re-enter it by hand, without copying names,
+  // messages and email addresses into the platform's log retention. This branch
+  // only matters when the mail succeeded, so the full enquiry is already sitting
+  // in the sales inbox — the log just has to say which one to go and look for.
   if (pulse.status === "rejected") {
-    console.error(
-      "[contact] Pulse sync failed — enquiry not in the CRM:",
-      pulse.reason,
-      clean,
-    );
+    console.error("[contact] Pulse sync failed — enquiry not in the CRM", {
+      company: clean.companyName,
+      source: clean.source,
+      reason: String(pulse.reason),
+    });
   }
 
   if (mail.status === "rejected") {

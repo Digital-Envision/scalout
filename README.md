@@ -59,6 +59,11 @@ inbox it is not lost, so a failed CRM sync is logged loudly
 (`[contact] Pulse sync failed`) and the visitor still gets a confirmation —
 asking them to submit again would risk a duplicate email.
 
+That log line carries the company and the form it came from, not the enquirer's
+name, address or message. It only fires when the mail already succeeded, so the
+enquiry itself is in the inbox — the log just says which one failed to sync, and
+personal data does not need a second home in the platform's log retention.
+
 Configure with env vars (see [`.env.example`](.env.example)):
 
 ```bash

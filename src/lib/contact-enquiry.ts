@@ -55,6 +55,18 @@ function str(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+/**
+ * For the single-line fields. Strips CR, LF and other C0 control characters,
+ * which have no legitimate place in a name or a company and would otherwise
+ * ride into an email header — companyName reaches the Subject, and a bare CRLF
+ * in a header value is how a header-injection attempt starts. `message` is a
+ * textarea and keeps its newlines, so it deliberately does not go through here;
+ * it is only ever a body, never a header.
+ */
+function line(value: unknown): string {
+  return str(value).replace(/[\u0000-\u001f\u007f]/g, " ").trim();
+}
+
 function isSource(value: unknown): value is EnquirySource {
   return ENQUIRY_SOURCES.includes(value as EnquirySource);
 }
@@ -64,12 +76,12 @@ export function validate(body: Payload): {
   clean: CleanEnquiry;
 } {
   const clean: CleanEnquiry = {
-    fullName: str(body.fullName),
-    workEmail: str(body.workEmail),
-    companyName: str(body.companyName),
-    country: str(body.country),
-    rolesNeeded: str(body.rolesNeeded),
-    teamSize: str(body.teamSize),
+    fullName: line(body.fullName),
+    workEmail: line(body.workEmail),
+    companyName: line(body.companyName),
+    country: line(body.country),
+    rolesNeeded: line(body.rolesNeeded),
+    teamSize: line(body.teamSize),
     message: str(body.message),
     // The source only picks a label and pipeline in Pulse, so an unrecognised
     // value is not worth failing a real enquiry over — fall back to the
