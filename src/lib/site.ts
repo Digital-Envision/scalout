@@ -1,10 +1,15 @@
-const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+/** `|| undefined` so an empty value behaves like an unset one: the guard below
+ *  tests falsiness, but `??` further down only skips `null`/`undefined`, and
+ *  `NEXT_PUBLIC_SITE_URL=` in a dashboard would otherwise make `SITE_URL` the
+ *  empty string and `new URL("")` in the root layout throw at build. */
+const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || undefined;
 
 /*
  * Vercel exposes these at build time. VERCEL_URL is the deployment-specific
- * host, with no protocol. Neither is a NEXT_PUBLIC_ variable, which is fine —
- * this module is imported only by server code (layout, sitemap, robots,
- * opengraph-image, and the schema/seo helpers those pull in).
+ * host, with no protocol. Neither is a NEXT_PUBLIC_ variable, so neither is
+ * inlined into the browser bundle — see the guard below, which is why that
+ * matters now that a client component (`app/error.tsx`) imports this module
+ * for CONTACT_EMAIL.
  */
 const vercelEnv = process.env.VERCEL_ENV;
 const vercelUrl = process.env.VERCEL_URL;
@@ -25,8 +30,22 @@ const previewUrl =
  * blanket disallow whenever we are on a fallback origin — so a preview cannot
  * be indexed under the wrong host. A production deploy still has to say what
  * it is.
+ *
+ * Server-only, and that is load-bearing rather than tidiness. `NODE_ENV` is
+ * inlined into the browser bundle; `VERCEL_ENV` and `VERCEL_URL` are not,
+ * because they carry no `NEXT_PUBLIC_` prefix. So on the client this condition
+ * reads as "production, no configured URL, no preview URL" on *every*
+ * production build, however the deploy is actually configured — and throwing
+ * at module scope in a shared client chunk takes the whole page down before
+ * any error boundary exists to catch it. A browser cannot fix a missing
+ * build-time variable anyway; only the build can, which is where this belongs.
  */
-if (!configuredUrl && !previewUrl && process.env.NODE_ENV === "production") {
+if (
+  typeof window === "undefined" &&
+  !configuredUrl &&
+  !previewUrl &&
+  process.env.NODE_ENV === "production"
+) {
   throw new Error(
     "NEXT_PUBLIC_SITE_URL must be set for production builds. Without it the " +
       "sitemap and robots.txt are prerendered with localhost URLs.",
