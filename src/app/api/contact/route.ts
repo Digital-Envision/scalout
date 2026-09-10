@@ -2,23 +2,20 @@ import { NextResponse } from "next/server";
 import { validate, type Payload } from "@/lib/contact-enquiry";
 import { sendEnquiryEmail } from "@/lib/contact-email";
 import { syncLeadToPulse } from "@/lib/pulse-lead";
-import { automationSignal, clientIp, takeToken } from "@/lib/contact-spam";
+import {
+  clientIp,
+  filledHoneypot,
+  MAX_BODY_BYTES,
+  takeToken,
+} from "@/lib/contact-spam";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  let body: Payload;
-  try {
-    body = (await request.json()) as Payload;
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "Invalid request body." },
-      { status: 400 },
-    );
-  }
-
-  // Before validation, so that a flood costs a header read and a map lookup
-  // rather than the full parse-and-check path.
+  // Before the body is touched at all. Parsing is the expensive part of a
+  // flood — a route handler imposes no size limit of its own and will buffer
+  // whatever it is sent — and a malformed body must cost the sender a token
+  // too, or refusing to send valid JSON becomes a way around the cap.
   const ip = clientIp(request.headers);
   const limit = takeToken(ip);
   if (!limit.allowed) {
@@ -35,8 +32,27 @@ export async function POST(request: Request) {
     );
   }
 
-  const signal = automationSignal(body);
-  if (signal) {
+  // Absent on a chunked request, in which case there is nothing to check
+  // cheaply and the parse below is the backstop.
+  const declaredBytes = Number(request.headers.get("content-length"));
+  if (Number.isFinite(declaredBytes) && declaredBytes > MAX_BODY_BYTES) {
+    return NextResponse.json(
+      { ok: false, error: "That enquiry is too large to accept." },
+      { status: 413 },
+    );
+  }
+
+  let body: Payload;
+  try {
+    body = (await request.json()) as Payload;
+  } catch {
+    return NextResponse.json(
+      { ok: false, error: "Invalid request body." },
+      { status: 400 },
+    );
+  }
+
+  if (filledHoneypot(body)) {
     // The company name, so a discard is recoverable: if this ever fires on a
     // real visitor they get a success screen and nobody gets the lead, and the
     // only way to answer "we filled in your form last week" is a log to search.
@@ -50,7 +66,7 @@ export async function POST(request: Request) {
     // prints a second console argument as "{}", and a log nobody can read is
     // not a recovery path.
     console.warn(
-      `[contact] discarded an automated submission (${signal}) from ${company || "an unnamed company"}`,
+      `[contact] discarded an automated submission from ${company || "an unnamed company"}`,
     );
     // Deliberately the success response, with nothing sent. A bot that gets a
     // clean 200 has no signal to tune against; a 403 tells it exactly which

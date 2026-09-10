@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -123,14 +123,6 @@ export function ContactForm({
   // read straight off the node: it is not part of the enquiry, and it must not
   // reach validation. Name is shared with HONEYPOT_FIELD in lib/contact-spam.
   const honeypotRef = useRef<HTMLInputElement>(null);
-  // When the form reached the visitor, stamped after hydration rather than
-  // during render: the render pass also runs on the server, where the clock is
-  // a different one. The elapsed time it feeds is measured entirely here, so
-  // the server never has to compare its clock against a visitor's.
-  const mountedAtRef = useRef<number | null>(null);
-  useEffect(() => {
-    mountedAtRef.current = Date.now();
-  }, []);
 
   function update<K extends keyof FormValues>(key: K, value: string) {
     setValues((prev) => ({ ...prev, [key]: value }));
@@ -170,12 +162,6 @@ export function ContactForm({
           ...values,
           leadId: leadIdRef.current,
           companyWebsite: honeypotRef.current?.value ?? "",
-          // Omitted rather than faked if the effect never ran; the server
-          // reads an absent value as no evidence either way.
-          elapsedMs:
-            mountedAtRef.current === null
-              ? undefined
-              : Date.now() - mountedAtRef.current,
           // Tells Pulse which form this came from, so the deal is titled and
           // routed correctly. Keep in sync with ENQUIRY_SOURCES.
           source: isLanding

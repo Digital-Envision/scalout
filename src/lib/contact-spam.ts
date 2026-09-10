@@ -13,12 +13,23 @@
 export const HONEYPOT_FIELD = "companyWebsite";
 
 /**
- * Nobody types a name, an email, a company and a country in under three
- * seconds. The form measures this itself, from mount to submit, so the number
- * never crosses a clock boundary — comparing a browser timestamp against the
- * server's would make every visitor with a skewed clock a suspect.
+ * There is deliberately no "submitted too fast" trap here, and adding one back
+ * would be a mistake. The only clock a page can offer is its own, anchored to
+ * hydration — and on a slow device hydration finishes *after* the visitor has
+ * already filled the fields, so a genuine enquiry can arrive milliseconds
+ * later. No floor is low enough to be safe from that and high enough to catch
+ * anything: a script posting straight at this endpoint sends no timing at all,
+ * and a headless browser that renders the page trips the honeypot instead.
+ * A false positive here is a real lead, discarded in silence.
  */
-const MIN_FILL_MS = 3000;
+
+/**
+ * Bodies larger than this are refused unread. The longest field a valid
+ * enquiry carries is a 5,000-character message, so this is generous by an
+ * order of magnitude; it exists because a route handler has no body limit of
+ * its own and will happily buffer megabytes on a 0.5 GB instance.
+ */
+export const MAX_BODY_BYTES = 64 * 1024;
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
@@ -32,33 +43,17 @@ const MAX_PER_WINDOW = 5;
  */
 const MAX_TRACKED_IPS = 5000;
 
-type Signal = "honeypot" | "too-fast";
-
-function field(body: unknown, key: string): unknown {
-  return typeof body === "object" && body !== null
-    ? (body as Record<string, unknown>)[key]
-    : undefined;
-}
-
 /**
- * Which automation signal a submission tripped, or null if it looks human.
- * Returning the reason rather than a boolean is what lets the route log it —
- * without that you cannot tell later whether the timing floor is catching bots
- * or catching people who paste their details in fast.
+ * Whether the honeypot came back with something in it. A visitor cannot see
+ * the field, cannot tab to it and cannot type into it, so any content at all
+ * arrived from something reading the DOM rather than looking at the page.
  */
-export function automationSignal(body: unknown): Signal | null {
-  const honeypot = field(body, HONEYPOT_FIELD);
-  if (typeof honeypot === "string" && honeypot.trim() !== "") return "honeypot";
-
-  // An absent or malformed elapsed time is not evidence of anything: an old
-  // cached page, or a client we did not write, would both omit it. Only a
-  // number we can read and that is implausibly small counts against a caller.
-  const elapsed = field(body, "elapsedMs");
-  if (typeof elapsed === "number" && Number.isFinite(elapsed) && elapsed >= 0) {
-    if (elapsed < MIN_FILL_MS) return "too-fast";
-  }
-
-  return null;
+export function filledHoneypot(body: unknown): boolean {
+  const value =
+    typeof body === "object" && body !== null
+      ? (body as Record<string, unknown>)[HONEYPOT_FIELD]
+      : undefined;
+  return typeof value === "string" && value.trim() !== "";
 }
 
 /**
