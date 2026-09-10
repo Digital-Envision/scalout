@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -118,6 +118,19 @@ export function ContactForm({
   // resend after a mail failure resolves to the deal Pulse may already have
   // created, and cleared on success so the next enquiry is a new one.
   const leadIdRef = useRef<string | null>(null);
+  // A field a person never sees and never fills, so anything in it came from
+  // something reading the DOM rather than the page. Kept out of `values` and
+  // read straight off the node: it is not part of the enquiry, and it must not
+  // reach validation. Name is shared with HONEYPOT_FIELD in lib/contact-spam.
+  const honeypotRef = useRef<HTMLInputElement>(null);
+  // When the form reached the visitor, stamped after hydration rather than
+  // during render: the render pass also runs on the server, where the clock is
+  // a different one. The elapsed time it feeds is measured entirely here, so
+  // the server never has to compare its clock against a visitor's.
+  const mountedAtRef = useRef<number | null>(null);
+  useEffect(() => {
+    mountedAtRef.current = Date.now();
+  }, []);
 
   function update<K extends keyof FormValues>(key: K, value: string) {
     setValues((prev) => ({ ...prev, [key]: value }));
@@ -156,6 +169,13 @@ export function ContactForm({
         body: JSON.stringify({
           ...values,
           leadId: leadIdRef.current,
+          companyWebsite: honeypotRef.current?.value ?? "",
+          // Omitted rather than faked if the effect never ran; the server
+          // reads an absent value as no evidence either way.
+          elapsedMs:
+            mountedAtRef.current === null
+              ? undefined
+              : Date.now() - mountedAtRef.current,
           // Tells Pulse which form this came from, so the deal is titled and
           // routed correctly. Keep in sync with ENQUIRY_SOURCES.
           source: isLanding
@@ -423,6 +443,19 @@ export function ContactForm({
             "resize-y",
             isLanding ? "min-h-[82px]" : "min-h-[100px]",
           )}
+        />
+      </div>
+
+      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="companyWebsite">Company website</label>
+        <input
+          ref={honeypotRef}
+          id="companyWebsite"
+          name="companyWebsite"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
         />
       </div>
 
