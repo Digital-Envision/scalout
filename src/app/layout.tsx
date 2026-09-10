@@ -10,6 +10,8 @@ import {
 } from "@/lib/site";
 import { graph, organizationNode, webSiteNode } from "@/lib/schema";
 import { JsonLd } from "@/components/json-ld";
+import { GA_MEASUREMENT_ID } from "@/lib/analytics";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -72,6 +74,7 @@ export default function RootLayout({
         <JsonLd data={graph(organizationNode, webSiteNode)} />
         {children}
       </body>
+      {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </html>
   );
 }
