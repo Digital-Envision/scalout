@@ -2,10 +2,46 @@ import { NextResponse } from "next/server";
 import { validate, type Payload } from "@/lib/contact-enquiry";
 import { sendEnquiryEmail } from "@/lib/contact-email";
 import { syncLeadToPulse } from "@/lib/pulse-lead";
+import {
+  clientIp,
+  filledHoneypot,
+  MAX_BODY_BYTES,
+  takeToken,
+} from "@/lib/contact-spam";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
+  // Before the body is touched at all. Parsing is the expensive part of a
+  // flood — a route handler imposes no size limit of its own and will buffer
+  // whatever it is sent — and a malformed body must cost the sender a token
+  // too, or refusing to send valid JSON becomes a way around the cap.
+  const ip = clientIp(request.headers);
+  const limit = takeToken(ip);
+  if (!limit.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "Too many enquiries from this connection. Please wait a few minutes, or email us directly at hello@scalout.com.",
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfterSeconds) },
+      },
+    );
+  }
+
+  // Absent on a chunked request, in which case there is nothing to check
+  // cheaply and the parse below is the backstop.
+  const declaredBytes = Number(request.headers.get("content-length"));
+  if (Number.isFinite(declaredBytes) && declaredBytes > MAX_BODY_BYTES) {
+    return NextResponse.json(
+      { ok: false, error: "That enquiry is too large to accept." },
+      { status: 413 },
+    );
+  }
+
   let body: Payload;
   try {
     body = (await request.json()) as Payload;
@@ -16,24 +52,38 @@ export async function POST(request: Request) {
     );
   }
 
+  if (filledHoneypot(body)) {
+    // The company name, so a discard is recoverable: if this ever fires on a
+    // real visitor they get a success screen and nobody gets the lead, and the
+    // only way to answer "we filled in your form last week" is a log to search.
+    // Stripped of control characters and truncated for the same reason
+    // everything else here is — an unvalidated string must not shape a log line.
+    const company =
+      typeof body.companyName === "string"
+        ? body.companyName.replace(/[\u0000-\u001f\u007f]/g, " ").slice(0, 80)
+        : "";
+    // One formatted string rather than a metadata object: Next's own logger
+    // prints a second console argument as "{}", and a log nobody can read is
+    // not a recovery path.
+    console.warn(
+      `[contact] discarded an automated submission from ${company || "an unnamed company"}`,
+    );
+    // Deliberately the success response, with nothing sent. A bot that gets a
+    // clean 200 has no signal to tune against; a 403 tells it exactly which
+    // field to leave alone next time.
+    return NextResponse.json({ ok: true, delivered: true });
+  }
+
   const { errors, clean } = validate(body);
   if (Object.keys(errors).length > 0) {
     return NextResponse.json({ ok: false, errors }, { status: 400 });
   }
 
-  // Both run regardless of how the other fares, but only the email decides what
-  // the visitor sees: once the enquiry is in the sales inbox it is not lost, so
-  // a failed CRM sync is our problem to chase, not a reason to ask someone to
-  // fill the form in again (and risk a duplicate email when they do).
   const [mail, pulse] = await Promise.allSettled([
     sendEnquiryEmail(clean),
     syncLeadToPulse(clean),
   ]);
 
-  // Enough to find the enquiry and re-enter it by hand, without copying names,
-  // messages and email addresses into the platform's log retention. This branch
-  // only matters when the mail succeeded, so the full enquiry is already sitting
-  // in the sales inbox — the log just has to say which one to go and look for.
   if (pulse.status === "rejected") {
     console.error("[contact] Pulse sync failed — enquiry not in the CRM", {
       company: clean.companyName,
