@@ -60,6 +60,34 @@ export function Cta({
 /* ---------- Section scaffolding ---------- */
 
 /**
+ * The same affordance as `Cta` for the rare action that isn't a navigation —
+ * currently only the error boundary's retry. Shares the base and tone tables
+ * so a button and a link can sit side by side in one `actions` row without
+ * drifting apart.
+ */
+export function CtaButton({
+  tone = "solid",
+  className,
+  onClick,
+  children,
+}: {
+  tone?: CtaTone;
+  className?: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(CTA_BASE, CTA_TONES[tone], className)}
+    >
+      {children}
+    </button>
+  );
+}
+
+/**
  * Section header. Deliberately a vertical stack: headline, then body at a
  * readable measure. No split header, no corner-floating explainer.
  */
