@@ -41,15 +41,22 @@ the case study) with `object-contain`.
 
 | File | Figma node | Used in |
 |---|---|---|
-| `client-va.png` | 2012:1070, 2012:1186 | Case-study client logo **and** first "Trusted by" mark |
-| `client-upscalix.png` | 2012:1187 | "Trusted by" strip |
-| `client-sdt.png` | 2012:1188 | "Trusted by" strip |
+| `client-va.png` | 2012:1070, 2012:1186 | Case-study client logo |
+| `client-upscalix.png` | 2012:1187 | — (was the "Trusted by" strip) |
+| `client-sdt.png` | 2012:1188 | — (was the "Trusted by" strip) |
 
-`client-va.png` is byte-identical across both Figma exports, so one file serves
-both slots. Only the SDT mark carries a legible wordmark; the alt text on the
-other two is inferred from project context (VA For Everyone appears in the
-testimonial attribution; the "UP" mark is assumed to be Upscalix). **Confirm the
-company names before launch** — alt text is the only place they are stated.
+`client-va.png` is byte-identical across both Figma exports. Only the SDT mark
+carries a legible wordmark; the alt text on the other two was inferred from
+project context (VA For Everyone appears in the testimonial attribution; the
+"UP" mark was assumed to be Upscalix).
+
+**These three never belonged in a "Trusted by" strip.** SDT and VA For Everyone
+are the two operations Scalout was merged from — the Standing section says so in
+as many words — so the strip was crediting the company to itself. Both "Trusted
+by" strips now run the real client wall from `public/assets/clients/`; see that
+folder's README. `client-upscalix.png` and `client-sdt.png` are no longer
+referenced by any component and can be deleted once the case study is confirmed
+not to need them.
 
 `team-at-work.jpg` and `contact-team.jpg` are cropped in the design rather than
 centred; the crop is reproduced with `object-position` (`center 66%` and

@@ -56,6 +56,26 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Client logo marquee. Each row is the logo list repeated N times; the track
+   slides by exactly one copy (--marquee-shift, set per row) and restarts, so
+   the loop is seamless. The two rows run opposite ways. */
+@theme {
+  --animate-logo-marquee-ltr: logo-marquee-ltr 44s linear infinite;
+  --animate-logo-marquee-rtl: logo-marquee-rtl 33s linear infinite;
+
+  @keyframes logo-marquee-ltr {
+    to {
+      transform: translateX(var(--marquee-shift));
+    }
+  }
+
+  @keyframes logo-marquee-rtl {
+    from {
+      transform: translateX(var(--marquee-shift));
+    }
+  }
+}
+
 :root {
   /* Scalout brand palette (from Figma; design uses raw hex, no variables) */
   --brand: #1a3d7c; /* deep blue */

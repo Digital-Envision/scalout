@@ -18,6 +18,7 @@ import {
   SectionHead,
   TextLink,
 } from "@/components/site-kit";
+import { ClientMarquee } from "@/components/client-marquee";
 import { FaqAccordion } from "@/app/_components/faq-accordion";
 import { FAQS } from "@/app/_components/faq-data";
 import { JsonLd } from "@/components/json-ld";
@@ -77,16 +78,10 @@ const standing = [
   },
 ];
 
-const clients = [
-  { src: "/assets/landing/client-va.png", name: "VA For Everyone" },
-  { src: "/assets/landing/client-upscalix.png", name: "Upscalix" },
-  { src: "/assets/landing/client-sdt.png", name: "Surya Digital Teknologi" },
-];
-
 function Standing() {
   return (
     <section className="border-b border-rule bg-card">
-      <div className="container-page py-12">
+      <div className="container-page pt-12">
         <dl className="grid gap-8 border-b border-rule pb-10 md:grid-cols-3">
           {standing.map((item) => (
             <div key={item.title}>
@@ -100,24 +95,13 @@ function Standing() {
           ))}
         </dl>
 
-        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-12">
-          <p className="text-sm font-semibold text-muted-foreground">
-            Trusted by
-          </p>
-          <ul className="flex flex-wrap items-center gap-x-10 gap-y-6">
-            {clients.map((client) => (
-              <li key={client.name} className="relative h-9 w-28">
-                <Image
-                  src={client.src}
-                  alt={client.name}
-                  fill
-                  sizes="112px"
-                  className="object-contain object-left opacity-70"
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <p className="data-label mt-8 text-muted-foreground">Trusted by</p>
+      </div>
+
+      {/* Full-bleed: the rows run past the content column and fade at both
+          gutters, so the wall reads as continuous rather than clipped. */}
+      <div className="mt-6 pb-12">
+        <ClientMarquee variant="site" />
       </div>
     </section>
   );
