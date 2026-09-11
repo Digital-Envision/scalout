@@ -59,7 +59,7 @@ jobs:
             git pull origin main
 
             echo "Copy env variables to .env"
-            cat << 'EOF' > .env
+            cat << EOF > .env
             NODE_ENV=$NODE_ENV
             APP_PORT=$APP_PORT
             RESEND_API_KEY=$RESEND_API_KEY
