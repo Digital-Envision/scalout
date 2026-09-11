@@ -74,4 +74,4 @@ jobs:
             bun run build
 
             bun ~/.bun/bin/pm2 restart ecosystem.config.cjs --env production || bun ~/.bun/bin/pm2 start ecosystem.config.cjs --env production
-            bun ~/.bun/bin/pm2 pm2 save
+            bun ~/.bun/bin/pm2 save
