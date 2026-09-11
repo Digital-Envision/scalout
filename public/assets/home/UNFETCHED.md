@@ -15,6 +15,7 @@ of downloading short-lived SVGs:
 
 ## Genuinely unfetched (need manual sourcing before launch)
 
-- **Client logos** (5×) — placeholder dashed boxes labelled "Client logo 1–5"
-  in the "Trusted by" strip. The design itself marks these as
-  "Replace with real client logos before launch". No real assets exist yet.
+None. The "Trusted by" strip was the last gap — the Figma design carried five
+placeholder dashed boxes labelled "Client logo 1–5" and marked them "Replace
+with real client logos before launch". They now hold the fourteen real client
+marks in `public/assets/clients/`; see that folder's README.

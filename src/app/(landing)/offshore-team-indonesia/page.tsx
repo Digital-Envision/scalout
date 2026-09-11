@@ -16,6 +16,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { ClientMarquee } from "@/components/client-marquee";
 import { ContactForm } from "@/components/contact-form";
 import { LandingFaq, type LandingFaqItem } from "../_components/landing-faq";
 import { JsonLd } from "@/components/json-ld";
@@ -724,12 +725,6 @@ const DIFFERENTIATORS: { icon: LucideIcon; title: string; body: string }[] = [
   },
 ];
 
-const CLIENT_LOGOS = [
-  { src: "/assets/landing/client-va.png", name: "VA For Everyone" },
-  { src: "/assets/landing/client-upscalix.png", name: "Upscalix" },
-  { src: "/assets/landing/client-sdt.png", name: "Surya Digital Teknologi" },
-];
-
 function WhyScalout() {
   return (
     <section className="bg-secondary px-6 py-20">
@@ -763,21 +758,8 @@ function WhyScalout() {
           <p className="text-center text-[11px] font-semibold uppercase leading-[16.5px] tracking-[1.1px] text-[#94a3b8]">
             Trusted by teams across
           </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-4">
-            {CLIENT_LOGOS.map(({ src, name }) => (
-              <span
-                key={name}
-                className="relative block h-10 w-28 overflow-hidden rounded-lg border border-[rgba(0,0,0,0.07)] bg-white"
-              >
-                <Image
-                  src={src}
-                  alt={name}
-                  fill
-                  sizes="112px"
-                  className="object-contain"
-                />
-              </span>
-            ))}
+          <div className="mt-6">
+            <ClientMarquee variant="landing" />
           </div>
         </div>
       </div>
