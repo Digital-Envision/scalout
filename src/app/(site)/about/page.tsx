@@ -153,13 +153,13 @@ export default function AboutPage() {
             body="Scalout was not built from scratch. Two Indonesia-based businesses, each with its own depth in technology staffing, remote employment, and cross-border HR operations, became one brand with a shared purpose."
           />
 
-          <figure className="relative mt-12 h-[200px] overflow-hidden rounded-[4px] border border-rule sm:h-[260px]">
+          <figure className="relative mt-12 aspect-[4/3] overflow-hidden rounded-[4px] border border-rule sm:aspect-auto sm:h-[380px] lg:h-[440px]">
             <Image
               src="/assets/landing/case-study-team.jpg"
               alt="The Scalout team in Indonesia"
               fill
               sizes="(min-width: 1104px) 1056px, 100vw"
-              className="object-cover"
+              className="object-cover object-[50%_30%]"
             />
           </figure>
 
