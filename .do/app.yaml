@@ -31,5 +31,15 @@ services:
       # origin — the build refuses to produce a sitemap without it.
       - key: NEXT_PUBLIC_SITE_URL
         value: https://scalout.com
+      # Analytics IDs, same RUN_AND_BUILD_TIME reasoning as above. Declared
+      # empty rather than omitted: `src/lib/analytics.ts` reads an empty value
+      # as "not configured" and renders no tag, so the site is correct as
+      # shipped, and the key is here to be filled in rather than remembered.
+      # GA4 measurement ID (G-XXXXXXXXXX), Admin > Data streams.
+      - key: NEXT_PUBLIC_GA_ID
+        value: ""
+      # Microsoft Clarity project ID, Clarity dashboard > Settings > Overview.
+      - key: NEXT_PUBLIC_CLARITY_PROJECT_ID
+        value: ""
     health_check:
       http_path: /

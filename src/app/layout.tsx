@@ -10,8 +10,9 @@ import {
 } from "@/lib/site";
 import { graph, organizationNode, webSiteNode } from "@/lib/schema";
 import { JsonLd } from "@/components/json-ld";
-import { GA_MEASUREMENT_ID } from "@/lib/analytics";
+import { CLARITY_PROJECT_ID, GA_MEASUREMENT_ID } from "@/lib/analytics";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { MicrosoftClarity } from "@/components/microsoft-clarity";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -73,6 +74,9 @@ export default function RootLayout({
             node on every other page references these by `@id`. */}
         <JsonLd data={graph(organizationNode, webSiteNode)} />
         {children}
+        {CLARITY_PROJECT_ID && (
+          <MicrosoftClarity projectId={CLARITY_PROJECT_ID} />
+        )}
       </body>
       {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </html>
