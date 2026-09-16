@@ -5,6 +5,9 @@ import { join } from "node:path";
 import { SITE_URL } from "@/lib/site";
 import { OG_IMAGE } from "@/lib/seo";
 
+// Force Next.js to render this OG image statically during build time
+export const dynamic = "force-static";
+
 export const alt = OG_IMAGE.alt;
 export const size = { width: OG_IMAGE.width, height: OG_IMAGE.height };
 export const contentType = "image/png";

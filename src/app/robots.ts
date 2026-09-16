@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { IS_CANONICAL_ORIGIN, SITE_URL } from "@/lib/site";
 
+export const dynamic = "force-static";
+
 export default function robots(): MetadataRoute.Robots {
   /*
    * Preview deployments and local builds run on a fallback origin. Serving

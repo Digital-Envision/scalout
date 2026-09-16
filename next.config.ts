@@ -6,9 +6,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
-  // Emit a self-contained server bundle for the DigitalOcean / Docker
-  // production target. Vercel ignores this and uses its own output.
-  output: "standalone",
+
+  // Generates a static HTML/JS/CSS export into the ./out directory
+  output: "export",
+
+  // Required for static exports unless using a custom third-party image loader
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
