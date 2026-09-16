@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  # CI job to test code in GitHub Actions runner before deploying
+  # Job 1: Lint & Test
   build-and-test:
     runs-on: ubuntu-latest
     steps:
@@ -23,64 +23,43 @@ jobs:
 
       - name: Run Linter / Tests
         run: |
-          # Uncomment if you want tests to pass before deploying
           # bun run lint
           # bun test
 
-  # Deployment job that executes on server
+  # Job 2: Static Export Build & Deploy to Cloudflare
   deploy:
     needs: build-and-test # Waits for tests to pass before executing
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Next.js Static Export
+        run: bun run build
         env:
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          CONTACT_TO_EMAIL: ${{ secrets.CONTACT_TO_EMAIL }}
-          CONTACT_FROM_EMAIL: ${{ secrets.CONTACT_FROM_EMAIL }}
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-          # Analytics IDs. Optional: an unset secret arrives as an empty
-          # string, which `src/lib/analytics.ts` treats as "not configured"
-          # and renders no tag. Both are NEXT_PUBLIC_, so they must reach the
-          # server before `bun run build` below inlines them — a value added
-          # after the build does nothing until the next deploy.
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
           NEXT_PUBLIC_CLARITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_CLARITY_PROJECT_ID }}
-          APP_PORT: ${{ secrets.APP_PORT }}
+          PULSE_API_URL: ${{ secrets.PULSE_API_URL }}
+
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          envs: NODE_ENV,APP_PORT,RESEND_API_KEY,CONTACT_TO_EMAIL,CONTACT_FROM_EMAIL,NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_GA_ID,NEXT_PUBLIC_CLARITY_PROJECT_ID
-          script: |
-            echo "Deploying app on the server..."
-
-            APP_DIR="${{ secrets.APP_DIR }}"
-            cd $APP_DIR
-
-            # Ensure Bun binaries are available in SSH non-interactive session
-            export BUN_INSTALL="$HOME/.bun"
-            export PATH="$BUN_INSTALL/bin:$PATH"
-
-            # Pull latest changes from Git repository
-            git pull origin main
-
-            echo "Copy env variables to .env"
-            cat << EOF > .env
-            NODE_ENV=$NODE_ENV
-            APP_PORT=$APP_PORT
-            RESEND_API_KEY=$RESEND_API_KEY
-            CONTACT_TO_EMAIL=$CONTACT_TO_EMAIL
-            CONTACT_FROM_EMAIL=$CONTACT_FROM_EMAIL
-            NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
-            NEXT_PUBLIC_GA_ID=$NEXT_PUBLIC_GA_ID
-            NEXT_PUBLIC_CLARITY_PROJECT_ID=$NEXT_PUBLIC_CLARITY_PROJECT_ID
-            EOF
-
-            # Install dependencies and build project
-            bun install --frozen-lockfile
-            bun run build
-
-            bun ~/.bun/bin/pm2 restart ecosystem.config.cjs --env production || bun ~/.bun/bin/pm2 start ecosystem.config.cjs --env production
-            bun ~/.bun/bin/pm2 save
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+        env:
+          CONTACT_TO_EMAIL: ${{ secrets.CONTACT_TO_EMAIL }}
+          CONTACT_FROM_EMAIL: ${{ secrets.CONTACT_FROM_EMAIL }}
+          PULSE_SYNC_SECRET: ${{ secrets.PULSE_SYNC_SECRET }}
+          SMTP2GO_API_KEY: ${{ secrets.SMTP2GO_API_KEY }}
