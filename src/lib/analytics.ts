@@ -2,6 +2,7 @@ import { IS_CANONICAL_ORIGIN } from "@/lib/site";
 
 const configuredGaId = process.env.NEXT_PUBLIC_GA_ID?.trim();
 const configuredClarityId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID?.trim();
+const configuredGtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
 
 /**
  * Whether to load third-party analytics at all.
@@ -46,3 +47,17 @@ export const GA_MEASUREMENT_ID =
  */
 export const CLARITY_PROJECT_ID =
   reportingEnabled && configuredClarityId ? configuredClarityId : undefined;
+
+/**
+ * The Google Tag Manager container ID (`GTM-XXXXXXX`, from the container's
+ * Workspace header), or `undefined` when the container should not load. Same
+ * shape and same two conditions as the IDs above.
+ *
+ * GTM sits alongside the two hardcoded tags rather than replacing them, so
+ * nothing already reporting depends on a container being configured correctly.
+ * The cost of that is double counting: add a GA4 tag inside the container while
+ * `NEXT_PUBLIC_GA_ID` is still set and every pageview is sent to the property
+ * twice. One path per vendor — either the tag here or the tag in the container.
+ */
+export const GTM_CONTAINER_ID =
+  reportingEnabled && configuredGtmId ? configuredGtmId : undefined;
