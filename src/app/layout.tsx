@@ -10,8 +10,12 @@ import {
 } from "@/lib/site";
 import { graph, organizationNode, webSiteNode } from "@/lib/schema";
 import { JsonLd } from "@/components/json-ld";
-import { CLARITY_PROJECT_ID, GA_MEASUREMENT_ID } from "@/lib/analytics";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import {
+  CLARITY_PROJECT_ID,
+  GA_MEASUREMENT_ID,
+  GTM_CONTAINER_ID,
+} from "@/lib/analytics";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { MicrosoftClarity } from "@/components/microsoft-clarity";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -69,6 +73,7 @@ export default function RootLayout({
         jetbrains.variable,
       )}
     >
+      {GTM_CONTAINER_ID && <GoogleTagManager gtmId={GTM_CONTAINER_ID} />}
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
         {/* The entity behind the site, and the site itself. Every other
             node on every other page references these by `@id`. */}

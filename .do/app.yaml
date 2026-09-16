@@ -41,5 +41,8 @@ services:
       # Microsoft Clarity project ID, Clarity dashboard > Settings > Overview.
       - key: NEXT_PUBLIC_CLARITY_PROJECT_ID
         value: ""
+      # Google Tag Manager container ID (GTM-XXXXXXX), container Workspace header.
+      - key: NEXT_PUBLIC_GTM_ID
+        value: ""
     health_check:
       http_path: /
